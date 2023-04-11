@@ -1,26 +1,217 @@
 /* commodities.css */
+body {
+    background-color: #F5F5F5;
+
+}
 .header-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    position: fixed;
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-.input-group {
     width: 100%;
+    z-index: 100;
+}
+main {
+    padding-top: 130px;
+    padding-bottom: 20px;
 }
 
-.form-control {
-    width: 100%;
+@media screen and (max-width: 768px) {
+    main {
+        padding-top: 50px;
+        padding-bottom: 10px;
+    }
+}
+
+.logo{
+    max-width: 180px;
+    max-height: 60px;
+    cursor: pointer;
+}
+
+.header-container .input-group {
+    /*max-width: 200px;*/
+
+    border-radius: 15px;
+    /*font-family: 'Inter', serif;*/
+    font-style: normal;
+    border: none;
+    text-align: center;
+    color: #919191;
+    min-width: 300px
+}
+.header-container .form-inline{
+    background-color:  #F7F0E9;
+    border-radius: 10px
+
+}
+.header-container .dropdown{
+    background-color: #D8C1A8;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.header-container .dropdown select{
+    background-color: transparent;
+    border-style: none;
+    cursor: pointer;
+}
+.header-container .dropdown select option{
+    background-color: #D8C1A8;
+}
+.header-container .input-group .form-control {
     border-radius: 5px;
+    background-color: transparent;
+    border-style: none;
+}
+.info-container-fluid button{
+    border-style: none;
+    border-radius: 10px;
+    background-color:  #F7F0E9;
+    color: #A97B47;
+    margin-right: 5px;
+    min-height: 38px;
+    min-width: 101px;
+}
+.btn-magnifier{
+    background-color: transparent;
+    border-style: none;
+    cursor: pointer;
+}
+.btn-magnifier img{
+    max-width: 15px
 }
 
-.form-inline {
+.filter-bar{
+    background-color: #f7f0e9;
+    border-radius: 15px;
+    box-shadow: 0 4px 4px rgba(208, 208, 208, 0.25);
+    max-width: 1000px;
+    margin: 0 auto
+}
+h5{
+    color: #593C1C;
+}
+
+.toggle {
+    cursor: pointer;
+    margin: 1rem auto;
+    position: relative;
+    width: 60px;
+    height: 30px;
+    border-radius: 25px;
+    outline: none;
+    background-color: darkgray;
+    -webkit-appearance: none;
+    transition: background .3s;rgba(0,0,0,0.15);
+}
+.toggle::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 35%;
+    transform: translate(-70%, -50%);
+    border-radius: 50%;
+    height: 1.8rem;
+    width: 1.8rem;
+    background-color: white;
+    transition: left .3s;
+
+}
+
+.toggle:checked {
+    background-color: #90AB34;
+
+}
+
+.toggle:checked::after {
+    left: 85%;
+}
+
+h6{
+    color: #593C1C;
+}
+.radio-button {
+    display: none;
+
+}
+.radio-container {
     display: flex;
     align-items: center;
+    margin-left: 10px;
+}
+.radio-container .radio-label {
+    font-weight: bold;
+    border-width: 0;
+    color: #909090;
+    background-color: #f7f0e9;
+    border-radius: 15px;
+    padding: 10px;
+
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.radio-container .radio-label:hover {
+    background-color: #e4dcd4;
+
+}
+.radio-button:checked + .radio-label {
+    background-color: #a97b47;
+
+    color: #f7f0e9;
+    padding: 14px 18px;
+
 }
 
-.navbar-brand img {
-    width: 265px;
-    height: 95px;
+.product-item{
+    width: 100%;
+}
+@media (min-width: 576px) {
+    .card-columns {
+        column-count: 2;
+    }
+}
+
+@media (min-width: 768px) {
+    .card-columns {
+        column-count: 3;
+    }
+}
+
+@media (min-width: 992px) {
+    .card-columns {
+        column-count: 4;
+    }
+}
+
+.card{
+    box-shadow: 0 4px 4px rgba(208, 208, 208, 0.25);
+    border: none;
+    border-radius: 15px;
+
+}
+.card-body h4{
+    color: #593c1c;
+}
+.card-body h6{
+    color: #C82525;
+}
+.card-text{
+    color: #593C1C;
+}
+.add-cart-btn{
+    border-radius: 8px;
+    border: 0.9px solid #000;
+    padding: 5px 15px; /* top/bottom padding of 10px, left/right padding of 20px */
+    background: transparent;
+    font-weight: 200;
+}
+button:disabled {
+    background-color: #F5F5F5;
+}
+footer {
+    background-color: #593C1C;
+    /*font-family: 'Inter';*/
+    font-style: normal;
+    text-align: center;
+
+    color: #FFFFFF;
 }
