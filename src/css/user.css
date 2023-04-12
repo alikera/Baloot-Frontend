@@ -22,6 +22,10 @@
     color: #F7F0E9;
     margin: 13px 13px 13px 13px;
 }
+.cart-text{
+    margin-left: 0.5%;
+    color:  #593c1c;
+}
 
 .container {
     padding-top: 12%;
@@ -54,13 +58,12 @@
 table {
     border-collapse: collapse;
     border-style: none;
-    border-radius: 10px;
 
 }
+
 table.table {
     border: none;
     margin-top: 10px;
-
 }
 
 table.table td, table.table th {
@@ -69,105 +72,58 @@ table.table td, table.table th {
 
 table.table thead th {
     border-top: none;
-
-
 }
 td,th {padding: .5em 1em;}
 
 thead{
     background-color: #FFFFFF;
-
 }
 /* Shadow on the header row*/
 thead tr {
     box-shadow: 0 4px 4px rgba(208, 208, 208, 0.25);
     border-radius: 10px;
 }
-/* Background colors defined on table cells */
-
-/*tr.even td {*/
-/*    background-color: yellow;*/
-/*}*/
-/*tr.odd td  {*/
-/*    background-color: orange;*/
-/*}*/
-
-/* I would like spacing between thead tr and tr.first-row */
-
+table tbody {
+    border-radius: 10px;
+    box-shadow: 0 4px 4px rgba(208, 208, 208, 0.25);
+}
 tbody:before {
     content:"@";
     display:block;
-    line-height:10px;
+    line-height:20px;
     text-indent:-99999px;
 }
 
+.counter {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 100px;
+}
 
-/*.table {*/
-/*    border-collapse: separate;*/
-/*    border-spacing: 0;*/
-/*    width: 100%;*/
-/*    max-width: 100%;*/
-/*    background-color: #fff;*/
-/*    border: none;*/
-/*    border-radius: 6px;*/
-/*    -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);*/
-/*    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);*/
-/*}*/
+.counter-btn {
+    background-color: #FFFFFF;
+    border: none;
+    font-size: 20px;
+    height: 36px;
+    width: 26px;
+    cursor: pointer;
+}
+.counter-value{
+    font-size: 5px;
+}
 
-/*thead {*/
-/*    margin-bottom: 100px;*/
-/*}*/
-/*tbody:before {*/
-/*    content:"@";*/
-/*    display:block;*/
-/*    line-height:10px;*/
-/*    text-indent:-99999px;*/
-/*}*/
-/*.table th,*/
-/*.table td {*/
-/*    padding: 12px 15px;*/
-/*    text-align: left;*/
-/*    vertical-align: middle;*/
-/*    border-top: none;*/
-/*    border-bottom: 1px solid #ddd;*/
-/*}*/
+.counter-btn:hover {
+    background-color: #FFFFFF;
+}
 
-/*.table th {*/
-/*    font-weight: 600;*/
-/*}*/
+.counter-value {
+    font-size: 20px;
+    margin: 0 12px;
+}
 
-/*.table-body {*/
-/*    -webkit-box-shadow: 0 6px 6px -6px rgba(0, 0, 0, 0.2);*/
-/*    box-shadow: 0 6px 6px -6px rgba(0, 0, 0, 0.2);*/
-/*}*/
-
-/*.table{*/
-/*    margin-top: 10px;*/
-/*    box-shadow: 0 4px 4px rgba(208, 208, 208, 0.25);*/
-
-/*    border-radius: 10px;*/
-/*    padding-top: 8px;*/
-/*    padding-bottom: 8px;*/
-/*}*/
-/*.table thead{*/
-/*    background: #FFFFFF;*/
-/*}*/
-/*.table tbody{*/
-/*    background: #FFFFFF;*/
-/*}*/
-/*table.table {*/
-/*    border: none;*/
-
-/*}*/
-
-/*table.table td, table.table th {*/
-/*    border: none;*/
-
-/*}*/
-
-/*table.table thead th {*/
-/*    border-top: none;*/
-/*}*/
 
 .cart-details-container .container-fluid .row{
     margin-top: 10px;
@@ -197,9 +153,9 @@ tbody:before {
 }
 
 .add-credit input {
-    padding-left: 100px;
-    padding-right: 100px;
-    border-radius: 15px;
+    width: 95%;
+    height: 30px;
+    border-radius: 10px;
     border: 1px solid #919191;
     box-shadow: 0px 4px 4px rgba(208, 208, 208, 0.25);
 }
@@ -208,14 +164,16 @@ tbody:before {
 }
 
 .credit-amount {
-    font-size: 80px;
+    font-size: 70px;
     width: 100%;
     color: #593C1C;
 }
 
 .add-credit-btn {
-    padding: 2px 132px;
-    border-radius: 15px;
+    width: 95%;
+    height: 20%;
+    /*padding: 2px 132px;*/
+    border-radius: 10px;
     background: #593C1C;
     box-shadow: 0 4px 4px rgba(208, 208, 208, 0.25);
     color: #FFFFFF;
@@ -225,13 +183,14 @@ tbody:before {
 
 tbody {
     color: #909090;
+    text-align: center;
 }
 
-.table-body .rating {
+tbody .rating {
     color: #FFC700;
 }
 
-.table-body .in-stock {
+tbody .in-stock {
     color: #C82525;
 }
 
@@ -241,9 +200,11 @@ tbody {
 }
 
 .pay-btn {
+    width: 40%;
+    height: 30px;
     background: #593C1C;
-    box-shadow: 0px 4px 4px rgba(208, 208, 208, 0.25);
-    border-radius: 15px;
+    box-shadow: 0 4px 4px rgba(208, 208, 208, 0.25);
+    border-style: none;
+    border-radius: 10px;
     color: #FFFFFF;
-    padding: 1% 10%;
 }
