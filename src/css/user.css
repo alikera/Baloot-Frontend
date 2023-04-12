@@ -27,9 +27,6 @@
     padding-top: 12%;
 }
 
-.row {
-    /*background: #FFFFFF;*/
-}
 .username-img{
     width: 2%;
     height: 2%;
@@ -37,4 +34,46 @@
 }
 .username-text{
     margin-left: 10px;
+}
+
+.user-details {
+    padding-top: 12%;
+}
+
+.user-details .row {
+    margin-left: 8%;
+    margin-right: 8%;
+    background-color: #FFFFFF;
+    border-radius: 15px;
+    padding-bottom: 2%;
+}
+
+.user-info {
+    padding-top: 2%;
+    color: #593C1C;
+}
+
+.add-credit input {
+    padding-left: 100px;
+    padding-right: 100px;
+    border-radius: 15px;
+}
+
+.user-credit {
+    padding-right: 10%;
+}
+
+.credit-amount {
+    font-size: 80px;
+    width: 100%;
+    color: #593C1C;
+}
+
+.add-credit-btn {
+    padding-left: 130px;
+    padding-right: 130px;
+    border-radius: 15px;
+    background-color: #593C1C;
+    color: #FFFFFF;
+    margin-top: 2%;
 }
