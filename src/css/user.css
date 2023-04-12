@@ -194,8 +194,9 @@ tbody:before {
     padding-left: 100px;
     padding-right: 100px;
     border-radius: 15px;
+    border: 1px solid #919191;
+    box-shadow: 0px 4px 4px rgba(208, 208, 208, 0.25);
 }
-
 .user-credit {
     padding-right: 10%;
 }
@@ -207,10 +208,11 @@ tbody:before {
 }
 
 .add-credit-btn {
-    padding-left: 130px;
-    padding-right: 130px;
+    padding: 2px 132px;
     border-radius: 15px;
-    background-color: #593C1C;
+    background: #593C1C;
+    box-shadow: 0 4px 4px rgba(208, 208, 208, 0.25);
     color: #FFFFFF;
     margin-top: 2%;
+    border-style: none;
 }

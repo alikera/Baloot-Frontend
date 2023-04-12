@@ -3,6 +3,11 @@
 /*    height: 10%;*/
 /*}*/
 
+:root { font-family: 'Inter', sans-serif; }
+@supports (font-variation-settings: normal) {
+    :root { font-family: 'Inter var', sans-serif; }
+}
+
 .info-container {
     display: flex;
     align-items: center;
@@ -12,6 +17,7 @@
     margin-right: 38px;
     margin-top: 13px;
     color: #593C1C;
+    /*font-family: Inter;*/
 }
 
 .cart-container {
