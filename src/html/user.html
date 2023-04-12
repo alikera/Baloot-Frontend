@@ -61,7 +61,7 @@
                     <h2 class="credit-amount">$10000000</h2>
                     <input type="text" class="text-center" placeholder="$Amount" required>
                 </div>
-                <button class="add-credit-btn text-center">Add More Credit</button>
+                <button class="add-credit-btn">Add More Credit</button>
             </div>
         </div>
     </div>
@@ -84,7 +84,7 @@
 <!--                <div class="col">In Cart</div>-->
 <!--            </div>-->
 <!--        </div>-->
-        <table class="table border-0">
+        <table class="table">
             <thead style="border-radius: 10px">
             <tr>
                 <th scope="col" class="text-center">Image</th>
@@ -102,13 +102,19 @@
                 <th scope="row" class="text-center">
                     <img class="buy-list-img" src="/images/product.png" alt="image">
                 </th>
-                <td class="text-center">Galaxy S21</td>
-                <td class="text-center">Technology, Phone</td>
-                <td class="text-center">$21000000</td>
-                <td class="text-center">1234</td>
-                <td class="rating text-center">8.3</td>
-                <td class="in-stock text-center">17</td>
-                <td class="text-center">Lorem ipsum</td>
+                <td class="align-middle">Galaxy S21</td>
+                <td class="align-middle">Technology, Phone</td>
+                <td class="align-middle">$21000000</td>
+                <td class="align-middle">1234</td>
+                <td class="rating align-middle">8.3</td>
+                <td class="in-stock align-middle">17</td>
+                <td class="align-middle">
+                    <div class="counter">
+                        <button class="counter-btn" id="decrement">-</button>
+                        <text class="counter-value" id="counter">1</text>
+                        <button class="counter-btn" id="increment">+</button>
+                    </div>
+                </td>
             </tr>
             </tbody>
         </table>
@@ -136,8 +142,8 @@
         <!--                <div class="col">In Cart</div>-->
         <!--            </div>-->
         <!--        </div>-->
-        <table class="table border-0">
-            <thead style="border-radius: 10px">
+        <table class="table table-hover">
+            <thead class="table-head">
             <tr>
                 <th scope="col" class="text-center">Image</th>
                 <th scope="col" class="text-center">Name</th>
@@ -154,25 +160,27 @@
                 <th scope="row" class="text-center">
                     <img class="buy-list-img" src="/images/spagetti.png" alt="image">
                 </th>
-                <td class="text-center">Mom’s Spaghetti</td>
-                <td class="text-center">Food</td>
-                <td class="text-center">$60000</td>
-                <td class="text-center">313</td>
-                <td class="rating text-center">10</td>
-                <td class="in-stock text-center">0</td>
-                <td class="text-center">3</td>
+                <td class="align-middle">Mom’s Spaghetti</td>
+                <td class="align-middle">Food</td>
+                <td class="align-middle">$60000</td>
+                <td class="align-middle">313</td>
+                <td class="rating align-middle">10</td>
+                <td class="in-stock align-middle">0</td>
+                <td class="align-middle">3</td>
             </tr>
+            </tbody>
+            <tbody>
             <tr style="background-color: #FFFFFF; border-radius: 15px">
                 <th scope="row" class="text-center">
                     <img class="buy-list-img" src="/images/mic.png" alt="image">
                 </th>
-                <td class="text-center">Dre’s Microphone</td>
-                <td class="text-center">Technology</td>
-                <td class="text-center">$4200000</td>
-                <td class="text-center">4321</td>
-                <td class="rating text-center">8.5</td>
-                <td class="in-stock text-center">22</td>
-                <td class="text-center">1</td>
+                <td class="align-middle">Dre’s Microphone</td>
+                <td class="align-middle">Technology</td>
+                <td class="align-middle">$4200000</td>
+                <td class="align-middle">4321</td>
+                <td class="rating align-middle">8.5</td>
+                <td class="in-stock align-middle">22</td>
+                <td class="align-middle">1</td>
             </tr>
             </tbody>
         </table>
@@ -180,3 +188,14 @@
     </div>
 
 </body>
+
+<footer class="position-relative">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 text-center">
+                2023 @UT
+            </div>
+        </div>
+    </div>
+</footer>
+</html>
