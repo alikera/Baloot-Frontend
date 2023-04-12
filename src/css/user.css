@@ -1,0 +1,40 @@
+.info-container {
+    display: flex;
+    align-items: center;
+}
+
+.username {
+    margin-right: 38px;
+    margin-top: 13px;
+    color: #593C1C;
+}
+
+.cart-container {
+    background: #593C1C;
+    border-radius: 15px;
+}
+
+.cart {
+    margin: 13px 13px 13px 13px;
+    color: #F7F0E9;
+}
+.cartNum {
+    color: #F7F0E9;
+    margin: 13px 13px 13px 13px;
+}
+
+.container {
+    padding-top: 12%;
+}
+
+.row {
+    /*background: #FFFFFF;*/
+}
+.username-img{
+    width: 2%;
+    height: 2%;
+    padding-top: 9px;
+}
+.username-text{
+    margin-left: 10px;
+}
