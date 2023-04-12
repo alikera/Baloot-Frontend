@@ -1,0 +1,32 @@
+body {
+    background-color: #f7f0e9;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    color: #593C1C;
+}
+
+.error-page {
+    text-align: center;
+    margin-top: 10%;
+}
+
+.error-page h1 {
+    font-size: 4em;
+    margin-bottom: 0.5em;
+}
+
+.error-page p {
+    font-size: 1.5em;
+    margin-top: 0;
+    margin-bottom: 1em;
+}
+
+.error-page a {
+    color: #593C1C;
+    text-decoration: none;
+    font-size: 1.2em;
+}
+
+.error-page a:hover {
+    text-decoration: underline;
+}
