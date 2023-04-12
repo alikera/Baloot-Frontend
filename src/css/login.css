@@ -45,6 +45,11 @@
 .forgot-password-link {
     color:  #593C1C;
 }
+
+.forgot-password {
+    margin-top: 5%;
+}
+
 /*@media only screen and (max-width: 1024px) {*/
 /*    !* Header styles *!*/
 /*    .header-container {*/
