@@ -45,6 +45,12 @@
     margin-right: 8%;
 }
 
+.history-details-container {
+    margin-top: 30px;
+    margin-left: 8%;
+    margin-right: 8%;
+}
+
 table {
     border-collapse: collapse;
     border-style: none;
@@ -215,4 +221,29 @@ tbody:before {
     color: #FFFFFF;
     margin-top: 2%;
     border-style: none;
+}
+
+tbody {
+    color: #909090;
+}
+
+.table-body .rating {
+    color: #FFC700;
+}
+
+.table-body .in-stock {
+    color: #C82525;
+}
+
+.buy-list-img {
+    width: 100px;
+    height: 100px;
+}
+
+.pay-btn {
+    background: #593C1C;
+    box-shadow: 0px 4px 4px rgba(208, 208, 208, 0.25);
+    border-radius: 15px;
+    color: #FFFFFF;
+    padding: 1% 10%;
 }
