@@ -35,6 +35,143 @@
 .username-text{
     margin-left: 10px;
 }
+.cart-img{
+    width: 25px;
+    height: 25px;
+}
+.cart-details-container{
+    margin-top: 30px;
+    margin-left: 8%;
+    margin-right: 8%;
+}
+
+table {
+    border-collapse: collapse;
+    border-style: none;
+    border-radius: 10px;
+
+}
+table.table {
+    border: none;
+    margin-top: 10px;
+
+}
+
+table.table td, table.table th {
+    border: none;
+}
+
+table.table thead th {
+    border-top: none;
+
+
+}
+td,th {padding: .5em 1em;}
+
+thead{
+    background-color: #FFFFFF;
+
+}
+/* Shadow on the header row*/
+thead tr {
+    box-shadow: 0 4px 4px rgba(208, 208, 208, 0.25);
+    border-radius: 10px;
+}
+/* Background colors defined on table cells */
+
+/*tr.even td {*/
+/*    background-color: yellow;*/
+/*}*/
+/*tr.odd td  {*/
+/*    background-color: orange;*/
+/*}*/
+
+/* I would like spacing between thead tr and tr.first-row */
+
+tbody:before {
+    content:"@";
+    display:block;
+    line-height:10px;
+    text-indent:-99999px;
+}
+
+
+/*.table {*/
+/*    border-collapse: separate;*/
+/*    border-spacing: 0;*/
+/*    width: 100%;*/
+/*    max-width: 100%;*/
+/*    background-color: #fff;*/
+/*    border: none;*/
+/*    border-radius: 6px;*/
+/*    -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);*/
+/*    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);*/
+/*}*/
+
+/*thead {*/
+/*    margin-bottom: 100px;*/
+/*}*/
+/*tbody:before {*/
+/*    content:"@";*/
+/*    display:block;*/
+/*    line-height:10px;*/
+/*    text-indent:-99999px;*/
+/*}*/
+/*.table th,*/
+/*.table td {*/
+/*    padding: 12px 15px;*/
+/*    text-align: left;*/
+/*    vertical-align: middle;*/
+/*    border-top: none;*/
+/*    border-bottom: 1px solid #ddd;*/
+/*}*/
+
+/*.table th {*/
+/*    font-weight: 600;*/
+/*}*/
+
+/*.table-body {*/
+/*    -webkit-box-shadow: 0 6px 6px -6px rgba(0, 0, 0, 0.2);*/
+/*    box-shadow: 0 6px 6px -6px rgba(0, 0, 0, 0.2);*/
+/*}*/
+
+/*.table{*/
+/*    margin-top: 10px;*/
+/*    box-shadow: 0 4px 4px rgba(208, 208, 208, 0.25);*/
+
+/*    border-radius: 10px;*/
+/*    padding-top: 8px;*/
+/*    padding-bottom: 8px;*/
+/*}*/
+/*.table thead{*/
+/*    background: #FFFFFF;*/
+/*}*/
+/*.table tbody{*/
+/*    background: #FFFFFF;*/
+/*}*/
+/*table.table {*/
+/*    border: none;*/
+
+/*}*/
+
+/*table.table td, table.table th {*/
+/*    border: none;*/
+
+/*}*/
+
+/*table.table thead th {*/
+/*    border-top: none;*/
+/*}*/
+
+.cart-details-container .container-fluid .row{
+    margin-top: 10px;
+    background: #FFFFFF;
+    box-shadow: 0 4px 4px rgba(208, 208, 208, 0.25);
+    border: none;
+    border-radius: 10px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
 
 .user-details {
     padding-top: 12%;
