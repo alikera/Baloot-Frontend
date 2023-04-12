@@ -2,13 +2,11 @@
 <html lang="en">
 <head>
     <title>Commodity</title>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
-    <link rel="preconnect" href="https://rsms.me/">
-    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
-    <link href="/src/css/commodity.css" rel="stylesheet" />
+    <link href="/src/css/commodity.css" rel="stylesheet">
     <link rel="stylesheet" href="/src/css/normalize.css">
 
 </head>
@@ -43,30 +41,30 @@
                 <div class="container-fluid">
                     <h1 class="product-title">Huawei nova 9</h1>
                     <div class="d-flex justify-content-between">
-                        <h5 class="stock-left">5 left in stock</h5>
-                        <div>
-                            <img id="rating-image" src="/images/Star.png" alt="star">
-                            <label for="rating-image">4.1</label>
-                            <h7 class="ratings-count">(12)</h7>
+                        <h6 class="stock-left">5 left in stock</h6>
+                        <div class="d-flex">
+                            <img class="rating-image" src="/images/Star.png" alt="star">
+                            <h4 class="commodity-rate">4.1</h4>
+                            <h6 class="ratings-count">(12)</h6>
                         </div>
                     </div>
 
-                    <div>by <a href="#">Huawei</a></div>
-                    <div class="categories">Category(s)</div>
+                    <h6>by <a href="#">Huawei</a></h6>
+                    <h6 class="categories">Category(s)</h6>
                     <ul>
-                        <li>Technology</li>
-                        <li>IT</li>
+                        <li><h6>Technology</h6></li>
+                        <li><h6>IT</h6></li>
                     </ul>
                 </div>
                 <div class="priceAdd container-fluid d-flex justify-content-between">
-                    <h5 class="price">300$</h5>
+                    <h4 class="price">300$</h4>
                     <div class="add-to-card">
                         <button class="add-btn" type="submit">add to card</button>
                     </div>
                 </div>
                 <div class="submit-rating container-fluid d-flex justify-content-between">
                     <div class="starts">
-                        <h6>Rate now:</h6>
+                        <h6>rate now</h6>
                         <div class="rating-stars">
                             <span class="star" data-value="1"></span>
                             <span class="star" data-value="2"></span>
@@ -89,21 +87,20 @@
         </div>
     </div>
     <div class="comments">
-        <div class="comments-header">
-            <h5 class="comments-word">Comments <text class="comments-count">(2)</text></h5>
+        <div class="comments-header d-flex">
+            <h6 class="comments-word">Comments</h6>
+            <div class="comments-count">(2)</div>
         </div>
 
         <div class="comment">
             <div class="row">
                 <div class="col-md-6">
-                    <h2>This was awesome!!!!</h2>
+                    <h5>This was awesome!!!!</h5>
                     <div class="left-sec-comment d-flex justify-content-between">
                         <div>
                             2022-02-10
                         </div>
-                        <div>
-                            <li></li>
-                        </div>
+                        <ul><li></li></ul>
                         <div class="comment-username">
                             #username
                         </div>
@@ -115,7 +112,7 @@
                             Is this comment helpful?
                         </div>
                         <div class="like d-flex justify-content-between">
-                            <div>
+                            <div class = "like-count">
                                 1
                             </div>
                             <div>
@@ -125,7 +122,7 @@
                             </div>
                         </div>
                         <div class="dislike d-flex justify-content-between">
-                            <div>
+                            <div class = "like-count">
                                 1
                             </div>
                             <div>
@@ -141,14 +138,12 @@
         <div class="comment">
             <div class="row">
                 <div class="col-md-6">
-                    <h2>This was awfulllll!!!!</h2>
+                    <h5>This was awfulllll!!!!</h5>
                     <div class="left-sec-comment d-flex justify-content-between">
                         <div>
                             2022-02-15
                         </div>
-                        <div>
-                            <li></li>
-                        </div>
+                        <ul><li></li></ul>
                         <div class="comment-username">
                             #username
                         </div>
@@ -160,7 +155,7 @@
                             Is this comment helpful?
                         </div>
                         <div class="like d-flex justify-content-between">
-                            <div>
+                            <div class = "like-count">
                                 1
                             </div>
                             <div>
@@ -170,7 +165,7 @@
                             </div>
                         </div>
                         <div class="dislike d-flex justify-content-between">
-                            <div>
+                            <div class = "like-count">
                                 1
                             </div>
                             <div>
@@ -186,7 +181,7 @@
         <div class="submit-comment">
             <div class="row">
                 <div class="col-md-6">
-                    <h5>Submit your opinion</h5>
+                    <h6>Submit your opinion</h6>
                 </div>
             </div>
             <div class="input-comment">
@@ -195,7 +190,7 @@
             </div>
         </div>
     </div>
-    <h2 class="suggestions-title">You also might like...</h2>
+    <h4 class="suggestions-title">You also might like...</h4>
     <div class="card-group mt-4">
         <div class="card">
             <div class="card-body">
@@ -206,7 +201,7 @@
             </div>
             <img src="/images/product.png" class="card-img-top" alt="...">
             <div class="priceAdd d-flex justify-content-between align-items-center mt-3">
-                <h5 class="price">300$</h5>
+                <h5 class="suggest-price">300$</h5>
                 <button type="submit" class="add-btn">add to cart</button>
             </div>
         </div>
@@ -219,7 +214,7 @@
             </div>
             <img src="/images/product.png" class="card-img-top" alt="...">
             <div class="priceAdd d-flex justify-content-between align-items-center mt-3">
-                <h5 class="price">300$</h5>
+                <h5 class="suggest-price">300$</h5>
                 <button type="submit" class="add-btn">add to cart</button>
             </div>
         </div>
@@ -232,7 +227,7 @@
             </div>
             <img src="/images/product.png" class="card-img-top" alt="...">
             <div class="priceAdd d-flex justify-content-between align-items-center mt-3">
-                <h5 class="price">300$</h5>
+                <h5 class="suggest-price">300$</h5>
                 <button type="submit" class="add-btn">add to cart</button>
             </div>
         </div>
@@ -245,20 +240,19 @@
             </div>
             <img src="/images/product.png" class="card-img-top" alt="...">
             <div class="priceAdd d-flex justify-content-between align-items-center mt-3">
-                <h5 class="price">300$</h5>
+                <h5 class="suggest-price">300$</h5>
                 <button type="submit" class="add-btn">add to cart</button>
             </div>
         </div>
     </div>
+    <footer class="position-relative">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 text-center">
+                    2023 @UT
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
-
-<footer class="position-relative">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 text-center">
-                2023 @UT
-            </div>
-        </div>
-    </div>
-</footer>
 </html>

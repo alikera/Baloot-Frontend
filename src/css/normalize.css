@@ -125,7 +125,9 @@ button,
 select {
     text-transform: none;
 }
-
+button{
+    cursor: pointer;
+}
 button,
 [type="button"],
 [type="reset"],
@@ -200,7 +202,6 @@ template {
 
 footer {
     background-color: #593C1C;
-    /*font-family: 'Inter';*/
     font-style: normal;
     text-align: center;
 

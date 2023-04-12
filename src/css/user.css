@@ -78,7 +78,6 @@ td,th {padding: .5em 1em;}
 thead{
     background-color: #FFFFFF;
 }
-/* Shadow on the header row*/
 thead tr {
     box-shadow: 0 4px 4px rgba(208, 208, 208, 0.25);
     border-radius: 10px;
@@ -172,7 +171,6 @@ tbody:before {
 .add-credit-btn {
     width: 95%;
     height: 20%;
-    /*padding: 2px 132px;*/
     border-radius: 10px;
     background: #593C1C;
     box-shadow: 0 4px 4px rgba(208, 208, 208, 0.25);
