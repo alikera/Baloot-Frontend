@@ -12,7 +12,6 @@
 .form-inline {
     background-color:  #F7F0E9;
     border-radius: 10px
-
 }
 .dropdown{
     background-color: #D8C1A8;
@@ -51,10 +50,11 @@
 }
 .register-btn{
     cursor: pointer;
-
+    font-weight: bold;
 }
 .login-btn{
     cursor: pointer;
+    font-weight: bold;
 
 }
 .filter-bar{
@@ -163,7 +163,6 @@ h6{
     box-shadow: 0 4px 4px rgba(208, 208, 208, 0.25);
     border: none;
     border-radius: 15px;
-
 }
 .card-body h4{
     color: #593c1c;
