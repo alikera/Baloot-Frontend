@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>login</title>
+    <title>Register</title>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <link
@@ -16,7 +16,6 @@
     />
     <link href="/src/css/login.css" rel="stylesheet" />
     <link rel="stylesheet" href="/src/css/normalize.css">
-
 </head>
 
 <body>
@@ -24,11 +23,11 @@
     <nav class="navbar">
         <div class="container-fluid d-flex justify-content-between">
             <a class="navbar-brand" href="#">
-                <img class = "logo" src="/images/Logo.png" alt="Logo">
+                <img class="logo" src="/images/Logo.png" alt="Logo">
             </a>
 
-            <button class="register-btn" type="button">
-                Register
+            <button class="login-btn" type="button">
+                Login
             </button>
         </div>
     </nav>
@@ -39,17 +38,24 @@
         <div class="col-sm-12 col-md-3">
             <form action="#" class="signing-form">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Email" required>
+                    <input type="text" class="form-control" placeholder="Full Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <input type="tel" class="form-control" placeholder="Phone number" required>
                 </div>
                 <div class="form-group">
                     <input id="password-field" type="password" class="form-control" placeholder="Password" required>
                     <span toggle="#password-field" class=""></span>
                 </div>
+                <div class="form-group">
+                    <input id="confirm-password-field" type="password" class="form-control" placeholder="Confirm Password" required>
+                    <span toggle="#confirm-password-field" class="fa fa-fw field-icon toggle-password"></span>
+                </div>
                 <div class="form-group signing-container">
-                    <button type="submit" class="sign-btn">Sign In</button>
-                    <div class="forgot-password">
-                        <a href="#" class="forgot-password-link">Forgot Password?</a>
-                    </div>
+                    <button type="submit" class="sign-btn">Sign Up</button>
                 </div>
             </form>
         </div>
