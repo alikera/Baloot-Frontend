@@ -1,7 +1,6 @@
 /* commodities.css */
 body {
     background-color: #F5F5F5;
-
 }
 .header-container {
     position: fixed;
@@ -39,7 +38,7 @@ main {
     color: #919191;
     min-width: 300px
 }
-.header-container .form-inline{
+.header-container .form-inline {
     background-color:  #F7F0E9;
     border-radius: 10px
 
@@ -79,7 +78,14 @@ main {
 .btn-magnifier img{
     max-width: 15px
 }
+.register-btn{
+    cursor: pointer;
 
+}
+.login-btn{
+    cursor: pointer;
+
+}
 .filter-bar{
     background-color: #f7f0e9;
     border-radius: 15px;
@@ -203,6 +209,7 @@ h6{
     padding: 5px 15px; /* top/bottom padding of 10px, left/right padding of 20px */
     background: transparent;
     font-weight: 200;
+    cursor: pointer;
 }
 button:disabled {
     background-color: #F5F5F5;
