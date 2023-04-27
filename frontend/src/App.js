@@ -1,12 +1,14 @@
-import logo from './logo.svg';
 import './App.css';
-import Login from "./login";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import Login from "./login";
+import Register from "./register";
+
 function App() {
     return (<Router>
         <Routes>
             <Route path="/login" element={<Login/>}/>
-
+            <Route path="/register" element={<Register/>}/>
         </Routes>
     </Router>);
 }
