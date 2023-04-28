@@ -1,16 +1,20 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import '../css/login.css'
 import '../css/normalize.css';
 import {useNavigate} from "react-router-dom";
 
 function Login() {
+    useEffect(() => {
+        document.title = 'Login';
+        return () => {
+        };
+    }, []);
+
     const navigate = useNavigate();
     const [password, setPassword] = useState('')
     const [username, setUsername] = useState('')
 
     async function handleSubmit(event) {
-        console.log("hereeeeeeeeeeeeeeeeeeeeeee");
-
         event.preventDefault();
         const response = await fetch('http://localhost:8080/api/auth/login', {
             headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
@@ -19,13 +23,12 @@ function Login() {
             redirect: 'follow',
             body: JSON.stringify({"username": username, "password": password})
         });
-        const data = await response.json();
-        console.log('A name was submitted: ' + data.status + ': ' + data.data);
-        if (data.status === 200) {
-            window.location.href("/")
+        console.log(response.status)
+        if (response.status === 200) {
+            navigate("/user?username="+username);
         } else {
             console.log("WRONG");
-            window.location.href("/login")
+            navigate("/login");
         }
     }
 
@@ -52,7 +55,6 @@ function Login() {
                         <form className="signing-form" onSubmit={handleSubmit}>
                             <div className="form-group ">
                                 <input type="text"
-                                       className="form-control"
                                        placeholder="Username"
                                        value={username}
                                        onChange={(event) => setUsername(event.target.value)}
@@ -60,7 +62,6 @@ function Login() {
                             </div>
                             <div className="form-group">
                                 <input type="password"
-                                       className="form-control"
                                        placeholder="Password"
                                        value={password}
                                        onChange={(event) => setPassword(event.target.value)}

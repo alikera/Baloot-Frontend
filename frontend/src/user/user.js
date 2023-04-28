@@ -5,6 +5,7 @@ import '../css/user.css'
 import '../css/normalize.css'
 import { Modal } from 'react-bootstrap';
 import userEvent from "@testing-library/user-event";
+import Login from "../auth/login";
 
 function UserInfo(props) {
     const navigate = useNavigate();
@@ -24,9 +25,7 @@ function UserInfo(props) {
         const response = await axios.post("http://localhost:8080/api/user/addCredit/" + props.user.username + "?credit=" + credit);
 
         if (response.status === 200) {
-            props.user.credit += parseFloat(credit);
-            setCredit('');
-            toggleModal();
+            window.location.reload();
         } else {
             console.log("WRONG");
             window.location.href("google.com");
@@ -96,9 +95,33 @@ function UserInfo(props) {
 
 function UserCartDetails(props) {
     const navigate = useNavigate();
+    const [buyList, setBuyList] = useState(props.buyList);
+    const [totalCost, setTotalCost] = useState(0);
+    const [discountValue, setDiscountValue] = useState(0);
+    const [discountCode, setDiscountCode] = useState('');
+    const [showModal, setShowModal] = useState(false);
+
+    useEffect(() => {
+        let sum = 0;
+        buyList.forEach((item) => {
+            sum += item.info.price * item.quantity;
+        });
+        setTotalCost(sum);
+    }, [buyList]);
+
+
+    function toggleModal() {
+        setShowModal(!showModal);
+    }
+
     async function handlePay(event) {
         event.preventDefault();
-        const response = await axios.post("http://localhost:8080/api/user/pay/" + props.username);
+        toggleModal();
+    }
+
+    async function handleBuy(event) {
+        event.preventDefault();
+        const response = await axios.post(`http://localhost:8080/api/user/pay/${props.username}?discountCode=${discountCode}&discountValue=${discountValue}`);
 
         if (response.status === 200) {
             window.location.reload();
@@ -107,6 +130,33 @@ function UserCartDetails(props) {
             console.log("WROOOOOOOOOOOOOOONG");
         }
     }
+
+    async function handleApplyDiscount(event) {
+        event.preventDefault();
+        const response = await axios.get(`http://localhost:8080/api/user/discount?code=${discountCode}`);
+
+        if (response.status === 200) {
+            setDiscountValue(response.data);
+        } else {
+            console.log(response.data);
+            console.log("WROOOOOOOOOOOOOOONG");
+        }
+    }
+
+    function handleIncrement(index) {
+        const updatedList = [...buyList];
+        updatedList[index].quantity += 1;
+        setBuyList(updatedList);
+    }
+
+    function handleDecrement(index) {
+        const updatedList = [...buyList];
+        if (updatedList[index].quantity > 0) {
+            updatedList[index].quantity -= 1;
+            setBuyList(updatedList);
+        }
+    }
+
     return(
         <>
             <div className="cart-details-container">
@@ -129,23 +179,23 @@ function UserCartDetails(props) {
                         <th scope="col" className="text-center">In Cart</th>
                     </tr>
                     </thead>
-                    {props.buyList.map((item) => (
+                    {buyList.map((item, index) => (
                         <tbody className="table-body">
                         <tr>
                             <th scope="row" className="text-center">
                                 <img className="buy-list-img" src="{item.image}" alt="image" />
                             </th>
-                            <td className="align-middle">{item.name}</td>
-                            <td className="align-middle">{item.categories.join(", ")}</td>
-                            <td className="align-middle">${item.price}</td>
-                            <td className="align-middle">{item.providerId}</td>
-                            <td className="rating align-middle">{item.rating}</td>
-                            <td className="in-stock align-middle">{item.inStock}</td>
+                            <td className="align-middle">{item.info.name}</td>
+                            <td className="align-middle">{item.info.categories.join(", ")}</td>
+                            <td className="align-middle">${item.info.price}</td>
+                            <td className="align-middle">{item.info.providerId}</td>
+                            <td className="rating align-middle">{item.info.rating}</td>
+                            <td className="in-stock align-middle">{item.info.inStock}</td>
                             <td className="align-middle">
                                 <div className="counter">
-                                    <button className="counter-btn" id={`decrement`}>-</button>
-                                    <div className="counter-value" id={`counter`}>{item.inCart}</div>
-                                    <button className="counter-btn" id={`increment`}>+</button>
+                                    <button className="counter-btn" id={`decrement`} onClick={() => handleDecrement(index)}>-</button>
+                                    <div className="counter-value" id={`counter`}>{item.quantity}</div>
+                                    <button className="counter-btn" id={`increment`} onClick={() => handleIncrement(index)}>+</button>
                                 </div>
                             </td>
                         </tr>
@@ -154,9 +204,40 @@ function UserCartDetails(props) {
                 </table>
                 <form onSubmit={handlePay}>
                     <div className="text-center">
-                        <button className="pay-btn">Pay Now!</button>
+                        <button className="pay-btn">Pay Now!{props.user.credit}</button>
                     </div>
                 </form>
+                <Modal show={showModal} onHide={toggleModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Confirm Buy Addition</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Total Cost: ${totalCost}
+                        <br />
+                        Discount: {discountValue * 100}%
+                        <br />
+                        Must Pay: ${totalCost * (1-discountValue)}
+                        <br />
+                        <input type="text"
+                               placeholder="Discount Code"
+                               value={discountCode}
+                               id="discount-code"
+                               onChange={(event) => setDiscountCode(event.target.value)}
+                               required/>
+                        <button variant="primary" onClick={handleApplyDiscount}>
+                            Apply Discount
+                        </button>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <button variant="secondary" onClick={toggleModal}>
+                            Cancel
+                        </button>
+                        <button variant="primary" onClick={handleBuy}>
+                            Buy
+                        </button>
+                    </Modal.Footer>
+                </Modal>
+
             </div>
         </>
     );
@@ -191,14 +272,13 @@ function UserHistoryDetails(props) {
                             <th scope="row" className="text-center">
                                 <img className="buy-list-img" src="{item.image}" alt="image" />
                             </th>
-                            <td className="align-middle">{item.name}</td>
-                            <td className="align-middle">{item.categories.join(", ")}</td>
-                            <td className="align-middle">${item.price}</td>
-                            <td className="align-middle">{item.providerId}</td>
-                            <td className="rating align-middle">{item.rating}</td>
-                            <td className="in-stock align-middle">{item.inStock}</td>
-                            <td className="align-middle">
-                            </td>
+                            <td className="align-middle">{item.info.name}</td>
+                            <td className="align-middle">{item.info.categories.join(", ")}</td>
+                            <td className="align-middle">${item.info.price}</td>
+                            <td className="align-middle">{item.info.providerId}</td>
+                            <td className="rating align-middle">{item.info.rating}</td>
+                            <td className="in-stock align-middle">{item.info.inStock}</td>
+                            <td className="align-middle">{item.quantity}</td>
                         </tr>
                         </tbody>
                     ))}
@@ -209,29 +289,47 @@ function UserHistoryDetails(props) {
 }
 
 function User() {
-    const { username } = useParams();
-
+    useEffect(() => {
+        document.title = 'User';
+        return () => {
+        };
+    }, []);
     const [user, setUser] = useState('')
     const [buyList, setBuyList] = useState('')
     const [purchasedList, setPurchasedList] = useState('')
+
+    const searchParams = new URLSearchParams(window.location.search);
+    const username = searchParams.get('username');
+    const navigate = useNavigate();
+
     useEffect(() => {
-        axios.get("http://localhost:8080/api/user/" + username).then((responseUser) => {
-            setUser(responseUser.data);
-        });
+        if (!username) {
+            navigate('/login');
+        }
+    }, []);
+
+    useEffect(() => {
+        if (username) {
+            axios.get("http://localhost:8080/api/user/" + username).then((responseUser) => {
+                setUser(responseUser.data);
+            });
+        }
     }, []);
     useEffect(() => {
-        axios.get("http://localhost:8080/api/user/buyList/" + username).then((responseBuyListList) => {
-            setBuyList(responseBuyListList.data);
-        });
+        if (username) {
+            axios.get("http://localhost:8080/api/user/buyList/" + username).then((responseBuyListList) => {
+                setBuyList(responseBuyListList.data);
+            });
+        }
     }, []);
     useEffect(() => {
-        axios.get("http://localhost:8080/api/user/purchasedList/" + username).then((responsePurchasedList) => {
-            setPurchasedList(responsePurchasedList.data);
-        });
+        if (username) {
+            axios.get("http://localhost:8080/api/user/purchasedList/" + username).then((responsePurchasedList) => {
+                setPurchasedList(responsePurchasedList.data);
+            });
+        }
     }, []);
-    console.log(username);
-    console.log(user.email);
-    console.log(buyList.length);
+
     return (
         <>
             <header className="header-container">
@@ -256,7 +354,7 @@ function User() {
             </header>
 
             {user && <UserInfo user={user}/>}
-            {buyList && <UserCartDetails username={username} buyList={buyList}/>}
+            {buyList && <UserCartDetails username={username} user={user} buyList={buyList}/>}
             {purchasedList && <UserHistoryDetails purchasedList={purchasedList}/>}
             <footer className="position-relative">
                 <div className="container-fluid">

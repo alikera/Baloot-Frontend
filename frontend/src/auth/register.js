@@ -29,10 +29,9 @@ function Register() {
         console.log(responseBodyText)
         console.log(response.json())
         if (response.ok) {
-            window.location.href = '/login'; // Replace with the URL of the page you want to redirect to
+            window.location.href = '/login';
         }
         const data = await response.json();
-        console.log('A name was submitted: ' + data.status + ': ' + data.data);
         if (data.status === 200) {
             navigate("/login")
         } else {
@@ -62,7 +61,6 @@ function Register() {
                         <form onSubmit={handleSubmit} className="signing-form">
                             <div className="form-group">
                                 <input type="text"
-                                       className="form-control"
                                        placeholder="Username"
                                        value={username}
                                        onChange={(event) => setUsername(event.target.value)}
@@ -70,7 +68,6 @@ function Register() {
                             </div>
                             <div className="form-group">
                                 <input type="email"
-                                       className="form-control"
                                        placeholder="Email"
                                        value={email}
                                        onChange={(event) => setEmail(event.target.value)}
@@ -78,7 +75,6 @@ function Register() {
                             </div>
                             <div className="form-group">
                                 <input id="password-field" type="password"
-                                       className="form-control"
                                        placeholder="Password"
                                        value={password}
                                        onChange={(event) => setPassword(event.target.value)}
@@ -86,7 +82,6 @@ function Register() {
                             </div>
                             <div className="form-group">
                                 <input id="password-field" type="password"
-                                       className="form-control"
                                        placeholder="Confirm Password"
                                        value={confirmPassword}
                                        onChange={(event) => setConfirmPassword(event.target.value)}
@@ -94,7 +89,6 @@ function Register() {
                             </div>
                             <div className="form-group">
                                 <input type="text"
-                                       className="form-control"
                                        placeholder="Birth Date"
                                        value={birthDate}
                                        onChange={(event) => setBirthDate(event.target.value)}
