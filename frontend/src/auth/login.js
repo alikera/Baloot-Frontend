@@ -34,7 +34,7 @@ function Login() {
             <header className="header-container">
                 <nav className="navbar">
                     <div className="container-fluid d-flex justify-content-between">
-                        <a className="navbar-brand" href="#">
+                        <a className="navbar-brand" href="/">
                             <img className="logo" src="/Logo.png" alt="Logo"></img>
                         </a>
                         <a href="/register">
