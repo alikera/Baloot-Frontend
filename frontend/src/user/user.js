@@ -6,6 +6,7 @@ import '../css/normalize.css'
 import { Modal } from 'react-bootstrap';
 import userEvent from "@testing-library/user-event";
 import Login from "../auth/login";
+import {forEach} from "react-bootstrap/ElementChildren";
 
 function UserInfo(props) {
     const navigate = useNavigate();
@@ -121,7 +122,12 @@ function UserCartDetails(props) {
 
     async function handleBuy(event) {
         event.preventDefault();
-        const response = await axios.post(`http://localhost:8080/api/user/pay/${props.username}?discountCode=${discountCode}&discountValue=${discountValue}`);
+        let keys = buyList.map((item) => item.info.id.toString());
+        let values = buyList.map((item) => item.quantity.toString());
+        console.log(keys);
+        console.log(values);
+        const requestBody = { keys, values };
+        const response = await axios.post(`http://localhost:8080/api/user/pay/${props.username}?discountCode=${discountCode}&discountValue=${discountValue}`,requestBody);
 
         if (response.status === 200) {
             window.location.reload();
