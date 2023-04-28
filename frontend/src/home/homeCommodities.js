@@ -1,33 +1,55 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import '../css/commodities.css'
+import '../css/commodities.css';
 import '../css/normalize.css';
+import {Pagination} from "@mui/material";
 
 function Home() {
     const [commodities, setCommodities] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [searchOption, setSearchOption] = useState("name");
+    const [availableFlag , setAvailableFlag] = useState(false);
+    const [sortBy, setSortBy] = useState('');
+    const [pageNumber, setPageNumber] = useState(1);
+    const [totalPages, setTotalPages] = useState(10);
 
+    useEffect(() => {
+        setCommodities([]);
+        setTotalPages(1);
+        const apiUrl = `http://localhost:8080/api/?search=${searchQuery}&option=${searchOption}&available=${availableFlag}&sort=${sortBy}&page=${pageNumber}`;
+        axios.get(apiUrl).then((response) => {
+            setCommodities(response.data.commodities);
+            setTotalPages(response.data.totalPages);
+
+        });
+    }, [sortBy, pageNumber, availableFlag, searchOption, searchQuery]);
     const handleSearchQueryChange = (event) => {
         setSearchQuery(event.target.value);
     }
 
-    const handleSearchButtonClick = (event) => {
-        const apiUrl = `http://localhost:8080/api/?search=${searchQuery}&option=${searchOption}`;
-        axios.get(apiUrl).then((response) => {
-            setCommodities(response.data);
-        });
-    }
+    // const handleSearchButtonClick = (event) => {
+    //     const apiUrl = `http://localhost:8080/api/?search=${searchQuery}&option=${searchOption}&available=${availableFlag}&sort=${sortBy}&page=${pageNumber}`;
+    //     axios.get(apiUrl).then((response) => {
+    //         setCommodities(response.data);
+    //         setTotalPages(response.data.totalPages);
+    //
+    //     });
+    // }
     const handleSearchOption = (event) =>{
         setSearchOption(event.target.value)
     }
 
     const handleAvailableCommodities = (event) =>{
-        const apiUrl = `http://localhost:8080/api/?search=${searchQuery}&option=${searchOption}`;
-        axios.get(apiUrl).then((response) => {
-            setCommodities(response.data);
-        });
+        setAvailableFlag(!availableFlag)
     }
+    const handleSortByChange = (event) => {
+        setSortBy(event.target.value);
+
+    };
+    const handlePageNumber = (event, value) => {
+        setPageNumber(value);
+    }
+
     return (
         <>
             <header className="header-container">
@@ -47,13 +69,12 @@ function Home() {
                             <div className="input-group d-flex justify-content-between">
                                 <input type="text" className="form-control" placeholder="search your product..." value={searchQuery} onChange={handleSearchQueryChange}/>
                                 <div className="input-group-append">
-                                    <button className="btn-magnifier" type="button" onClick={handleSearchButtonClick}><img
+                                    <button className="btn-magnifier" type="button" ><img
                                         src="/Magnifier.png" alt="search"/></button>
                                 </div>
                             </div>
                         </form>
                         <div className="info-container-fluid d-flex justify-content-between">
-
                             <button className="register-btn" type="button">
                                 Register
                             </button>
@@ -67,20 +88,22 @@ function Home() {
             </header>
             <main>
                 <div className="container">
-                    <div className="container filter-bar d-flex justify-content-between">
+                    <div className="container filter-bar d-flex justify-content-between ">
                         <div className="d-flex justify-content-between align-items-center">
                             <h5 className="p-3">Available commodities</h5>
-                            <input type="checkbox" className="toggle" onClick={handleAvailableCommodities}/>
+                            <input type="checkbox" className="toggle" checked={availableFlag} onChange={handleAvailableCommodities}/>
                         </div>
                         <div className="d-flex justify-content-around align-items-center float-right">
                             <h6 className="sort-by p-2 mr-5">sort by:</h6>
-                            <div className="radio-container">
-                                <input type="radio" name="sort-option" id="sort-name" className="radio-button"/>
-                                    <label className="radio-label p-2 mr-3" htmlFor="sort-name">name</label>
-                            </div>
-                            <div className="radio-container">
-                                <input type="radio" name="sort-option" id="sort-price" className="radio-button"/>
-                                    <label className="radio-label p-2 mr-3 ml-3" htmlFor="sort-price">price</label>
+                            <div className="sort-options">
+                                <div className="radio-container">
+                                    <input type="radio" name="sort-option" id="sort-name" className="radio-button" value="name" onChange={handleSortByChange} checked={sortBy === "name"} />
+                                    <label className="radio-label p-2 mr-3" htmlFor="sort-name">Name</label>
+                                </div>
+                                <div className="radio-container">
+                                    <input type="radio" name="sort-option" id="sort-price" className="radio-button" value="price" onChange={handleSortByChange} checked={sortBy === "price"} />
+                                    <label className="radio-label p-2 mr-3 ml-3" htmlFor="sort-price">Price</label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -106,8 +129,12 @@ function Home() {
                             ))}
                         </div>
                     </div>
+                    <Pagination count={totalPages} size="small" onChange={handlePageNumber}/>
                 </div>
+
             </main>
+
+
         </>
     );
 }
