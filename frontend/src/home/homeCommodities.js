@@ -64,6 +64,7 @@ function Home() {
                                 <select className="form-control" value={searchOption} onChange={handleSearchOption}>
                                     <option className="name" value="name">name</option>
                                     <option className="category" value="category">category</option>
+                                    <option className="provider" value="provider">provider</option>
                                 </select>
                             </div>
                             <div className="input-group d-flex justify-content-between">
@@ -75,9 +76,12 @@ function Home() {
                             </div>
                         </form>
                         <div className="info-container-fluid d-flex justify-content-between">
-                            <button className="register-btn" type="button">
-                                Register
-                            </button>
+                            <a href="/provider">
+                                <button className="register-btn" type="button">
+                                    Register
+                                </button>
+
+                            </a>
 
                             <button className="login-btn" type="button">
                                 Login
@@ -95,15 +99,13 @@ function Home() {
                         </div>
                         <div className="d-flex justify-content-around align-items-center float-right">
                             <h6 className="sort-by p-2 mr-5">sort by:</h6>
-                            <div className="sort-options">
-                                <div className="radio-container">
-                                    <input type="radio" name="sort-option" id="sort-name" className="radio-button" value="name" onChange={handleSortByChange} checked={sortBy === "name"} />
-                                    <label className="radio-label p-2 mr-3" htmlFor="sort-name">Name</label>
-                                </div>
-                                <div className="radio-container">
-                                    <input type="radio" name="sort-option" id="sort-price" className="radio-button" value="price" onChange={handleSortByChange} checked={sortBy === "price"} />
-                                    <label className="radio-label p-2 mr-3 ml-3" htmlFor="sort-price">Price</label>
-                                </div>
+                            <div className="radio-container">
+                                <input type="radio" name="sort-option" id="sort-name" className="radio-button" value="name" onChange={handleSortByChange} checked={sortBy === "name"} />
+                                <label className="radio-label p-2 mr-3" htmlFor="sort-name">Name</label>
+                            </div>
+                            <div className="radio-container">
+                                <input type="radio" name="sort-option" id="sort-price" className="radio-button" value="price" onChange={handleSortByChange} checked={sortBy === "price"} />
+                                <label className="radio-label p-2 mr-3 ml-3" htmlFor="sort-price">Price</label>
                             </div>
                         </div>
                     </div>
@@ -129,12 +131,23 @@ function Home() {
                             ))}
                         </div>
                     </div>
-                    <Pagination count={totalPages} size="small" onChange={handlePageNumber}/>
+
+                    <div className="pagination-container">
+                        <Pagination count={totalPages} size="small" onChange={handlePageNumber} />
+                    </div>
                 </div>
 
             </main>
 
-
+            <footer className="position-relative">
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="col-12 text-center">
+                            2023 @UT
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </>
     );
 }

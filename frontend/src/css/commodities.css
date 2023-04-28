@@ -21,13 +21,13 @@
 }
 .dropdown select option{
     background-color: #D8C1A8;
+    font-size: 13px;
 }
 .form-control {
     border-radius: 5px;
     background-color: transparent;
     border-style: none;
     font-weight: 400;
-
 }
 .info-container-fluid button{
     border-style: none;
@@ -199,4 +199,9 @@ h5{
 button:disabled {
     background-color: #F5F5F5;
     cursor: none;
+}
+
+.pagination-container{
+    display: flex;
+    justify-content: center;
 }
