@@ -12,14 +12,19 @@
 .cart-container {
     background: #593C1C;
     border-radius: 15px;
+    color: #F7F0E9;
+}
+
+.cart-container-zero {
+    background: #F7F0E9;
+    border-radius: 15px;
+    color: #593C1C;
 }
 
 .cart {
     margin: 13px 13px 13px 13px;
-    color: #F7F0E9;
 }
 .cartNum {
-    color: #F7F0E9;
     margin: 13px 13px 13px 13px;
 }
 .cart-text{
@@ -64,6 +69,15 @@ table {
 table.table {
     border: none;
     margin-top: 10px;
+}
+
+table thead {
+    border-radius: 10px;
+}
+
+table tbody tr {
+    background-color: #FFFFFF;
+    border-radius: 15px;
 }
 
 table.table td, table.table th {
@@ -205,4 +219,8 @@ tbody .in-stock {
     border-style: none;
     border-radius: 10px;
     color: #FFFFFF;
+}
+
+footer {
+    margin-top: 20px;
 }
