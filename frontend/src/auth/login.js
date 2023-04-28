@@ -37,10 +37,12 @@ function Login() {
                         <a className="navbar-brand" href="#">
                             <img className="logo" src="/Logo.png" alt="Logo"></img>
                         </a>
+                        <a href="/register">
+                            <button className="register-btn" type="button">
+                                Register
+                            </button>
+                        </a>
 
-                        <button className="register-btn" type="button">
-                            Register
-                        </button>
                     </div>
                 </nav>
             </header>
