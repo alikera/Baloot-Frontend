@@ -11,6 +11,7 @@ function Home() {
     const [availableFlag , setAvailableFlag] = useState(false);
     const [sortBy, setSortBy] = useState('');
     const [pageNumber, setPageNumber] = useState(1);
+    // TODO: total page
     const [totalPages, setTotalPages] = useState(10);
 
     useEffect(() => {
@@ -92,7 +93,7 @@ function Home() {
             </header>
             <main>
                 <div className="container">
-                    <div className="container filter-bar d-flex justify-content-between ">
+                    <div className="container mb-5 filter-bar d-flex justify-content-between ">
                         <div className="d-flex justify-content-between align-items-center">
                             <h5 className="p-3">Available commodities</h5>
                             <input type="checkbox" className="toggle" checked={availableFlag} onChange={handleAvailableCommodities}/>
@@ -119,7 +120,7 @@ function Home() {
                                                 <h4 className="card-title">{commodity.name}</h4>
                                             </a>
                                             <p className="card-subtitle mb-2 mt-1">{commodity.inStock} left in stock</p>
-                                            <img className="card-img" src="/product.png" alt={commodity.name} />
+                                            <img className="card-img" src={commodity.image} alt={commodity.name} />
 
                                             <div className="d-flex justify-content-between align-items-center mt-3">
                                                 <h7 className="card-text">{commodity.price}$</h7>

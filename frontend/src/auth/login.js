@@ -53,15 +53,17 @@ function Login() {
                 <div className="row justify-content-center align-items-center vh-100">
                     <div className="col-sm-12 col-md-3">
                         <form className="signing-form" onSubmit={handleSubmit}>
-                            <div className="form-group ">
-                                <input type="text"
+                            <div className="form-group">
+                                <input className="form-control"
+                                       type="text"
                                        placeholder="Username"
                                        value={username}
                                        onChange={(event) => setUsername(event.target.value)}
                                        required/>
                             </div>
                             <div className="form-group">
-                                <input type="password"
+                                <input className="form-control"
+                                       type="password"
                                        placeholder="Password"
                                        value={password}
                                        onChange={(event) => setPassword(event.target.value)}

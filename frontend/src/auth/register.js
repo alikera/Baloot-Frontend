@@ -48,10 +48,12 @@ function Register() {
                         <a className="navbar-brand" href="#">
                             <img className="logo" src="./Logo.png" alt="Logo"></img>
                         </a>
+                        <a href="/login">
+                            <button className="login-btn" type="button">
+                                Login
+                            </button>
+                        </a>
 
-                        <button className="login-btn" type="button">
-                            Login
-                        </button>
                     </div>
                 </nav>
             </header>
@@ -60,35 +62,40 @@ function Register() {
                     <div className="col-sm-12 col-md-3">
                         <form onSubmit={handleSubmit} className="signing-form">
                             <div className="form-group">
-                                <input type="text"
+                                <input className="form-control"
+                                       type="text"
                                        placeholder="Username"
                                        value={username}
                                        onChange={(event) => setUsername(event.target.value)}
                                        required/>
                             </div>
                             <div className="form-group">
-                                <input type="email"
+                                <input className="form-control"
+                                       type="email"
                                        placeholder="Email"
                                        value={email}
                                        onChange={(event) => setEmail(event.target.value)}
                                        required/>
                             </div>
                             <div className="form-group">
-                                <input id="password-field" type="password"
+                                <input className="form-control"
+                                       id="password-field" type="password"
                                        placeholder="Password"
                                        value={password}
                                        onChange={(event) => setPassword(event.target.value)}
                                        required/>
                             </div>
                             <div className="form-group">
-                                <input id="password-field" type="password"
+                                <input className="form-control"
+                                       id="password-field" type="password"
                                        placeholder="Confirm Password"
                                        value={confirmPassword}
                                        onChange={(event) => setConfirmPassword(event.target.value)}
                                        required/>
                             </div>
                             <div className="form-group">
-                                <input type="text"
+                                <input className="form-control"
+                                       type="text"
                                        placeholder="Birth Date"
                                        value={birthDate}
                                        onChange={(event) => setBirthDate(event.target.value)}

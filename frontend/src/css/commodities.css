@@ -23,7 +23,7 @@
     background-color: #D8C1A8;
     font-size: 13px;
 }
-.form-control {
+.input-group .form-control {
     border-radius: 5px;
     background-color: transparent;
     border-style: none;
@@ -92,7 +92,6 @@ h5{
 
 .toggle:checked {
     background-color: #90AB34;
-
 }
 
 .toggle:checked::after {
@@ -162,7 +161,7 @@ h5{
     padding: 10px;
 }
 .card-img {
-    object-fit: cover; /* to ensure the image fills the container and maintains aspect ratio */
+    object-fit: cover;
 }
 .card-title {
     margin: 0;
