@@ -10,16 +10,42 @@ import {forEach} from "react-bootstrap/ElementChildren";
 
 function CommodityInfo(props) {
     const navigate = useNavigate();
-    const [credit, setCredit] = useState('')
     const info = useState(props.commodity.info)
-    const categories = useState(info[0].categories);
+    const categories = useState(info[0].categories)
+    const [quantity, setQuantity] = useState(0)
+    const [rating, setRating] = useState(info[0].rating)
+    const [countOfRatings, setCountOfRatings] = useState(info[0].countOfRatings)
+
+    function handleAddToCart() {
+        setQuantity(1);
+    }
+
+    function handleIncrement() {
+        if (info[0].inStock > quantity) {
+            setQuantity(quantity + 1);
+        }
+    }
+
+    function handleDecrement() {
+        if (quantity > 0) {
+            setQuantity(quantity - 1);
+        }
+    }
+
+    function handleRatingChange(newRating) {
+        setRating(newRating)
+    }
+
+    function handleCountOfRatingsChange(newCount) {
+        setCountOfRatings(newCount)
+    }
 
     return (
         <>
             <div className="container">
                 <div className="row">
                     <div className="col-md-6">
-                        <img className="img" src="/product.png" alt="Logo"/>
+                        <img className="img" src={info[0].image} alt={info[0].name}/>
                     </div>
                     <div className="col-md-6">
                         <div className="container-fluid">
@@ -28,8 +54,8 @@ function CommodityInfo(props) {
                                 <h6 className="stock-left">{info[0].inStock} left in stock</h6>
                                 <div className="d-flex">
                                     <img className="rating-image" src="/Star.png" alt="star"/>
-                                        <h4 className="commodity-rate">{info[0].rating}</h4>
-                                        <h6 className="ratings-count">({info[0].countOfRatings})</h6>
+                                        <h4 className="commodity-rate">{rating}</h4>
+                                        <h6 className="ratings-count">({countOfRatings})</h6>
                                 </div>
                             </div>
 
@@ -43,31 +69,19 @@ function CommodityInfo(props) {
                         </div>
                         <div className="priceAdd container-fluid d-flex justify-content-between">
                             <h4 className="price">${info[0].price}</h4>
-                            <div className="add-to-card">
-                                <button className="add-btn" type="submit">add to card</button>
-                            </div>
-                        </div>
-                        <div className="submit-rating container-fluid d-flex justify-content-between">
-                            <div className="starts">
-                                <h6>rate now</h6>
-                                <div className="rating-stars">
-                                    <span className="star" data-value="1"></span>
-                                    <span className="star" data-value="2"></span>
-                                    <span className="star" data-value="3"></span>
-                                    <span className="star" data-value="4"></span>
-                                    <span className="star" data-value="5"></span>
-                                    <span className="star" data-value="6"></span>
-                                    <span className="star" data-value="7"></span>
-                                    <span className="star" data-value="8"></span>
-                                    <span className="star" data-value="9"></span>
-                                    <span className="star" data-value="10"></span>
+                            {quantity > 0 ? info[0].inStock > 0 && (
+                                <div className="counter">
+                                    <button className="counter-btn" id={`decrement`} onClick={handleDecrement}>-</button>
+                                    <div className="counter-value" id={`counter`}>{quantity}</div>
+                                    <button className="counter-btn" id={`increment`} onClick={handleIncrement}>+</button>
                                 </div>
-                            </div>
-                            <div className="submit-btn">
-                                <button type="submit">submit</button>
-                            </div>
+                            ) : info[0].inStock > 0 && (
+                                <div className="add-to-cart">
+                                    <button className="add-btn" type="submit" onClick={handleAddToCart}>Add to Cart</button>
+                                </div>
+                            )}
                         </div>
-
+                        {<Rate id={info[0].id} onRatingChange={handleRatingChange} onCounOfRatingsChange={handleCountOfRatingsChange}/>}
                     </div>
                 </div>
             </div>
@@ -75,17 +89,94 @@ function CommodityInfo(props) {
     );
 }
 
+function Rate(props) {
+    const [rating, setRating] = useState(null);
+    const [hoveredIndex, setHoveredIndex] = useState(null);
+
+    const handleStarClick = (value) => {
+        // Set the rating to the clicked value
+        setRating(value);
+        setHoveredIndex(value); // Reset hovered index when clicked
+    }
+
+    const handleMouseEnter = (index) => {
+        // Set the hovered index when mouse enters a star
+        setHoveredIndex(index);
+    }
+
+    const handleMouseLeave = () => {
+        // Reset the hovered index when mouse leaves the rating area
+        if (rating == null) {
+            setHoveredIndex(-1);
+        }
+    }
+
+    async function handleSubmit(event) {
+        if (rating != null) {
+            event.preventDefault();
+            const response = await axios.put(`http://localhost:8080/api/rate/${props.id}`, {
+                username: "amir",
+                rate: rating
+            });
+            if (response.status === 200) {
+                console.log(response.data)
+                props.onRatingChange(response.data.rating)
+                props.onCounOfRatingsChange(response.data.count)
+            }
+        }
+    }
+
+    return (
+        <div className="submit-rating container-fluid d-flex justify-content-between">
+            <div className="starts">
+                <h6>rate now</h6>
+                <div
+                    className="rating-stars"
+                    onMouseEnter={() => handleMouseEnter(0)}
+                    onMouseLeave={handleMouseLeave}
+                >
+                    {[...Array(10)].map((_, index) => (
+                        <span
+                            key={index}
+                            className={`star ${
+                                rating !== null && index < rating ? "yellow" : ""} ${
+                                hoveredIndex !== null && index >= hoveredIndex ? "star-shadow" : ""
+                            }`}
+                            onClick={() => handleStarClick(index + 1)}
+                            onMouseEnter={() => handleMouseEnter(index + 1)}
+                            data-value={index + 1}
+                        />
+                    ))}
+                </div>
+            </div>
+            <div className="submit-btn">
+                <button type="submit" onClick={handleSubmit}>submit</button>
+            </div>
+        </div>
+    );
+}
+
 function Comments(props) {
-    const comments = useState(props.comments)
-    console.log(comments[0])
+    const [comments, setComments] = useState(props.comments)
+    const [count, setCount] = useState(props.comments.length)
+
+    function handleCommentPost(newComment) {
+        const commentsCopy = [...comments];
+
+        commentsCopy.push(newComment);
+
+        setComments(commentsCopy);
+        setCount(count + 1)
+    }
+
     return(
         <>
             <div className="comments">
                 <div className="comments-header d-flex">
                     <h6 className="comments-word">Comments</h6>
-                    <div className="comments-count">({comments[0].length})</div>
+                    <div className="comments-count">({count})</div>
                 </div>
-                {comments[0].map((comment, index) => (
+                {comments.map((comment, index) => (
                     <div className="comment">
                         <div className="row">
                             <div className="col-md-6">
@@ -102,44 +193,102 @@ function Comments(props) {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-md-6">
-                                <div className="right-sec-comment d-flex justify-content-between">
-                                    <div className="like-comment-text">
-                                        Is this comment helpful?
-                                    </div>
-                                    <div className="like d-flex justify-content-between">
-                                        <div className="like-count">
-                                            {comment.likes}
-                                        </div>
-                                        <div>
-                                            <a className="" href="#">
-                                                <img className="img" src="/thumbs-up.png" alt="Logo"/>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div className="dislike d-flex justify-content-between">
-                                        <div className="like-count">
-                                            {comment.dislikes}
-                                        </div>
-                                        <div>
-                                            <a className="" href="#">
-                                                <img className="img" src="/thumbs-down.png" alt="Logo"/>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            {<Vote likes={comment.likes} dislikes={comment.dislikes} commentId={comment.id} id={props.id}/>}
                         </div>
                     </div>
                 ))}
 
-                {<PostComment/>}
+                {<PostComment id={props.id} onPostClicked={handleCommentPost}/>}
             </div>
         </>
     );
 }
 
-function PostComment() {
+function Vote(props) {
+    const [likes, setLikes] = useState(props.likes)
+    const [dislikes, setDislikes] = useState(props.dislikes)
+    async function handleThumbsUpClick(event) {
+        event.preventDefault();
+        const response = await axios.put(`http://localhost:8080/api/comment/vote/${props.id}`, {
+            username: "amir",
+            commentId: props.commentId,
+            vote: "1"
+        });
+        if (response.status === 200) {
+            if (response.data === 1) {
+                setLikes(likes + 1)
+            }
+            else if (response.data === -1) {
+                setLikes(likes + 1)
+                setDislikes(dislikes - 1)
+            }
+        }
+    }
+
+    async function handleThumbsDownClick(event) {
+        event.preventDefault();
+        const response = await axios.put(`http://localhost:8080/api/comment/vote/${props.id}`, {
+            username: "amir",
+            commentId: props.commentId,
+            vote: "-1"
+        });
+        if (response.status === 200) {
+            if (response.data === 1) {
+                setDislikes(dislikes + 1)
+            }
+            else if (response.data === -1) {
+                setDislikes(dislikes + 1)
+                setLikes(likes - 1)
+            }
+        }
+    }
+
+    return (
+        <>
+            <div className="col-md-6">
+                <div className="right-sec-comment d-flex justify-content-between">
+                    <div className="like-comment-text">
+                        Is this comment helpful?
+                    </div>
+                    <div className="like d-flex justify-content-between">
+                        <div className="like-count">
+                            {likes}
+                        </div>
+                        <div>
+                            <img className="img" src="/thumbs-up.png" alt="Logo" onClick={handleThumbsUpClick}/>
+                        </div>
+                    </div>
+                    <div className="dislike d-flex justify-content-between">
+                        <div className="like-count">
+                            {dislikes}
+                        </div>
+                        <div>
+                            <img className="img" src="/thumbs-down.png" onClick={handleThumbsDownClick}/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
+    )
+}
+
+function PostComment(props) {
+    const navigate = useNavigate()
+    const [comment, setComment] = useState('')
+
+    async function handlePost(event) {
+        event.preventDefault();
+        const response = await axios.post(`http://localhost:8080/api/comment/post/${props.id}`, {
+            username: "#usernmae",
+            text: comment
+        });
+
+        if (response.status === 200) {
+            props.onPostClicked(response.data)
+        } else {
+        }
+    }
+
     return (
         <div className="submit-comment">
             <div className="row">
@@ -148,53 +297,40 @@ function PostComment() {
                 </div>
             </div>
             <div className="input-comment">
-                <input type="text"/>
-                <button className="post-btn">Post</button>
+                <input type="text"
+                       placeholder="Your Comment"
+                       value={comment}
+                       onChange={(event) => setComment(event.target.value)}
+                       required/>
+                <button className="post-btn" onClick={handlePost}>
+                    Post
+                </button>
             </div>
         </div>
     );
 }
 
-function UserHistoryDetails(props) {
+function SuggestedCommodities(props) {
+    const commodities = useState(props.suggested)
     return (
         <>
-            <div className="history-details-container">
-                <div className="row">
-                    <div className="container-fluid d-flex">
-                        <img className="cart-img" src="/history.png" alt="cart"/>
-                        <div className="cart-text">History</div>
+            <h4 className="suggestions-title">You also might like...</h4>
+            <div className="card-group mt-4">
+                {commodities[0].map((item, index) => (
+                    <div className="card">
+                        <div className="card-body">
+                            <a className="card-title" href="#">
+                                <h5>{item.name}</h5>
+                            </a>
+                            <p className="stock-left">{item.inStock} left in stock</p>
+                        </div>
+                        <img src={item.image} className="card-img-top" alt={item.name}/>
+                        <div className="priceAdd d-flex justify-content-between align-items-center mt-3">
+                            <h5 className="suggest-price">{item.price}$</h5>
+                            <button type="submit" className="add-btn">add to cart</button>
+                        </div>
                     </div>
-                </div>
-                <table className="table table-hover">
-                    <thead className="table-head">
-                    <tr>
-                        <th scope="col" className="text-center">Image</th>
-                        <th scope="col" className="text-center">Name</th>
-                        <th scope="col" className="text-center">Categories</th>
-                        <th scope="col" className="text-center">Price</th>
-                        <th scope="col" className="text-center">Provider ID</th>
-                        <th scope="col" className="text-center">Rating</th>
-                        <th scope="col" className="text-center">In Stock</th>
-                        <th scope="col" className="text-center">Quantity</th>
-                    </tr>
-                    </thead>
-                    {props.purchasedList.map((item) => (
-                        <tbody className="table-body">
-                        <tr>
-                            <th scope="row" className="text-center">
-                                <img className="buy-list-img" src="{item.image}" alt="image" />
-                            </th>
-                            <td className="align-middle">{item.info.name}</td>
-                            <td className="align-middle">{item.info.categories.join(", ")}</td>
-                            <td className="align-middle">${item.info.price}</td>
-                            <td className="align-middle">{item.info.providerId}</td>
-                            <td className="rating align-middle">{item.info.rating}</td>
-                            <td className="in-stock align-middle">{item.info.inStock}</td>
-                            <td className="align-middle">{item.quantity}</td>
-                        </tr>
-                        </tbody>
-                    ))}
-                </table>
+                ))}
             </div>
         </>
     );
@@ -208,6 +344,7 @@ function Commodity() {
         };
     }, []);
     const [commodity, setCommodity] = useState('')
+    const [suggested, setSuggested] = useState('')
     const [comments, setComments] = useState('')
     const [buyList, setBuyList] = useState('')
     const navigate = useNavigate();
@@ -215,9 +352,10 @@ function Commodity() {
     useEffect(() => {
         axios.get(`http://localhost:8080/api/commodity/${id.id}`).then((response) => {
             setCommodity(response.data);
+            setSuggested(response.data.suggested);
         });
     }, []);
-
+    console.log(suggested.length)
     return (
         <>
             <header className="header-container">
@@ -242,7 +380,8 @@ function Commodity() {
             </header>
 
             {commodity && <CommodityInfo commodity={commodity}/>}
-            {commodity && <Comments comments={commodity.comments}/>}
+            {commodity && <Comments comments={commodity.comments} id={commodity.info.id}/>}
+            {suggested.length > 0 && <SuggestedCommodities suggested={suggested}/>}}
             <footer className="position-relative">
                 <div className="container-fluid">
                     <div className="row">

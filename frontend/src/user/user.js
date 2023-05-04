@@ -28,7 +28,6 @@ function UserInfo(props) {
         if (response.status === 200) {
             window.location.reload();
         } else {
-            console.log("WRONG");
             window.location.href("google.com");
         }
     }
@@ -131,16 +130,13 @@ function UserCartDetails(props) {
         event.preventDefault();
         let keys = buyList.map((item) => item.info.id.toString());
         let values = buyList.map((item) => item.quantity.toString());
-        console.log(keys);
-        console.log(values);
+
         const requestBody = { keys, values };
         const response = await axios.post(`http://localhost:8080/api/user/pay/${props.username}?discountCode=${discountCode}&discountValue=${discountValue}`,requestBody);
 
         if (response.status === 200) {
             window.location.reload();
         } else {
-            console.log(response.data);
-            console.log("WROOOOOOOOOOOOOOONG");
         }
     }
 
@@ -151,8 +147,7 @@ function UserCartDetails(props) {
         if (response.status === 200) {
             setDiscountValue(response.data);
         } else {
-            console.log(response.data);
-            console.log("WROOOOOOOOOOOOOOONG");
+
         }
     }
 
@@ -196,7 +191,7 @@ function UserCartDetails(props) {
                         <tbody className="table-body">
                         <tr>
                             <th scope="row" className="text-center">
-                                <img className="buy-list-img" src="{item.image}" alt="image" />
+                                <img className="buy-list-img" src={item.info.image} alt={item.info.name} />
                             </th>
                             <td className="align-middle">{item.info.name}</td>
                             <td className="align-middle">{item.info.categories.join(", ")}</td>
@@ -283,7 +278,7 @@ function UserHistoryDetails(props) {
                         <tbody className="table-body">
                         <tr>
                             <th scope="row" className="text-center">
-                                <img className="buy-list-img" src="{item.image}" alt="image" />
+                                <img className="buy-list-img" src={item.info.image} alt={item.info.name} />
                             </th>
                             <td className="align-middle">{item.info.name}</td>
                             <td className="align-middle">{item.info.categories.join(", ")}</td>
@@ -311,8 +306,7 @@ function User() {
     const [buyList, setBuyList] = useState('')
     const [purchasedList, setPurchasedList] = useState('')
 
-    const searchParams = new URLSearchParams(window.location.search);
-    const username = searchParams.get('username');
+    const { username } = useParams()
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -332,6 +326,7 @@ function User() {
         if (username) {
             axios.get("http://localhost:8080/api/user/buyList/" + username).then((responseBuyListList) => {
                 setBuyList(responseBuyListList.data);
+                console.log(buyList)
             });
         }
     }, []);
