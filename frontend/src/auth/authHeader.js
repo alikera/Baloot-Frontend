@@ -11,7 +11,7 @@ function AuthHeader({ page }) {
                     </a>
                     <a href={`/${page}`}>
                         <button className={`${page}-btn`} type="button">
-                            {page === "login" ? "Register" : "Login"}
+                            {page === "login" ? "Login" : "Register"}
                         </button>
                     </a>
                 </div>

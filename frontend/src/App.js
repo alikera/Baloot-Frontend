@@ -4,7 +4,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import Login from "./auth/login";
 import Register from "./auth/register";
 import User from "./user/user";
-import Home from "./home/homeCommodities";
+import Home from "./home/home";
 import Provider from "./provider/provider";
 import Commodity from "./commodity/commodity";
 

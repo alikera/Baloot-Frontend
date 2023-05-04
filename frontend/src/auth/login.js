@@ -4,14 +4,26 @@ import '../css/auth.css';
 import '../css/normalize.css';
 import Footer from '../components/footer';
 import AuthHeader from '../auth/authHeader'
+import FormField from "./formField";
 
 function Login() {
-    const [password, setPassword] = useState('');
-    const [username, setUsername] = useState('');
+
     const navigate = useNavigate();
+    useEffect(() => {
+        const userData = localStorage.getItem('userData');
+        if (userData) {
+            navigate('/user?username=' + JSON.parse(atob(userData)).userId);
+        }
+        document.title = 'Login';
+    }, []);
 
     async function handleSubmit(event) {
         event.preventDefault();
+        const formData = new FormData(event.target);
+
+        const username = formData.get('username');
+        const password = formData.get('password');
+
         const response = await fetch('http://localhost:8080/api/auth/login', {
             headers: {
                 'Content-Type': 'application/json',
@@ -24,16 +36,14 @@ function Login() {
         });
         console.log(response.status);
         if (response.status === 200) {
-            navigate('/user?username=' + username);
+            const encryptedData = btoa(JSON.stringify({ userId: username }));
+            localStorage.setItem('userData', encryptedData);
+            navigate('/user/' + username);
         } else {
             console.log('WRONG');
             navigate('/login');
         }
     }
-
-    useEffect(() => {
-        document.title = 'Login';
-    }, []);
 
     function LoginForm() {
         return (
@@ -41,32 +51,15 @@ function Login() {
                 <div className="row justify-content-center align-items-center vh-100">
                     <div className="col-sm-12 col-md-3">
                         <form className="signing-form" onSubmit={handleSubmit}>
-                            <div className="form-group">
-                                <input
-                                    className="form-control"
-                                    type="text"
-                                    placeholder="Username"
-                                    value={username}
-                                    onChange={(event) => setUsername(event.target.value)}
-                                    required
-                                />
-                            </div>
-                            <div className="form-group">
-                                <input
-                                    className="form-control"
-                                    type="password"
-                                    placeholder="Password"
-                                    value={password}
-                                    onChange={(event) => setPassword(event.target.value)}
-                                    required
-                                />
-                            </div>
+                            <FormField field={"username"} type={"text"}/>
+                            <FormField field={"password"} type={"password"}/>
+
                             <div className="form-group signing-container">
                                 <button type="submit" className="sign-btn">
                                     Sign In
                                 </button>
                                 <div className="forgot-password">
-                                    <a href="#" className="forgot-password-link">
+                                    <a href="/login" className="forgot-password-link">
                                         Forgot Password?
                                     </a>
                                 </div>
@@ -81,7 +74,7 @@ function Login() {
 
     return (
         <>
-            <AuthHeader page={"login"}/>
+            <AuthHeader page={"register"}/>
             <LoginForm/>
             <Footer/>
         </>

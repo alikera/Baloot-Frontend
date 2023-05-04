@@ -1,40 +1,47 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../css/auth.css';
 import '../css/normalize.css';
 import Footer from '../components/footer';
 import AuthHeader from "./authHeader";
+import FormField from "./formField";
 
 function Register() {
     const navigate = useNavigate();
-
-    const [formData, setFormData] = useState({
-        username: '',
-        password: '',
-        confirmPassword: '',
-        email: '',
-        address: '',
-        birthDate: ''
-    });
-
-    const handleChange = (event) => {
-        setFormData({
-            ...formData,
-            [event.target.name]: event.target.value
-        });
-    };
+    useEffect(() => {
+        const userData = localStorage.getItem('userData');
+        if (userData) {
+            navigate('/user/' + JSON.parse(atob(userData)).userId);
+        }
+        document.title = 'Register';
+    }, []);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        const form = event.target;
+        const formData = new FormData(form);
 
+        const username = formData.get('username');
+        const password = formData.get('password');
+        const email = formData.get('email');
+        const address = formData.get('address');
+        const birthDate = formData.get('birthDate');
         try {
-            const response = await axios.post(
-                'http://localhost:8080/api/auth/register',
-                formData
-            );
+            const response = await fetch(
+                'http://localhost:8080/api/auth/register',{
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Accept: 'application/json',
+                    },
+                    method: 'POST',
+                    mode: 'cors',
+                    redirect: 'follow',
+                    body: JSON.stringify({ username: username, password: password, email: email, address: address, birthDate: birthDate}),
+                });
 
             if (response.status === 200) {
+                console.log(formData)
                 navigate('/login');
             }
         } catch (error) {
@@ -49,64 +56,13 @@ function Register() {
                 <div className="row justify-content-center align-items-center vh-100">
                     <div className="col-sm-12 col-md-3">
                         <form onSubmit={handleSubmit} className="signing-form">
-                            <div className="form-group">
-                                <input
-                                    className="form-control"
-                                    type="text"
-                                    placeholder="Username"
-                                    name="username"
-                                    value={formData.username}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                            <div className="form-group">
-                                <input
-                                    className="form-control"
-                                    type="email"
-                                    placeholder="Email"
-                                    name="email"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                            <div className="form-group">
-                                <input
-                                    className="form-control"
-                                    id="password-field"
-                                    type="password"
-                                    placeholder="Password"
-                                    name="password"
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                            <div className="form-group">
-                                <input
-                                    className="form-control"
-                                    id="password-field"
-                                    type="password"
-                                    placeholder="Confirm Password"
-                                    name="confirmPassword"
-                                    value={formData.confirmPassword}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                            <div className="form-group">
-                                <input
-                                    className="form-control"
-                                    type="text"
-                                    placeholder="Birth Date"
-                                    name="birthDate"
-                                    value={formData.birthDate}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                            <div onSubmit={handleSubmit} className="form-group signing-container">
+                            <FormField field={"username"} type={"text"}/>
+                            <FormField field={"email"} type={"email"}/>
+                            <FormField field={"password"} type={"password"}/>
+                            <FormField field={"confirmPassword"} type={"password"}/>
+                            <FormField field={"address"} type={"text"}/>
+                            <FormField field={"birthDate"} type={"date"}/>
+                            <div className="form-group signing-container">
                                 <button type="submit" className="sign-btn">
                                     Sign Up
                                 </button>
@@ -121,7 +77,7 @@ function Register() {
 
     return (
         <>
-            <AuthHeader page={"register"}/>
+            <AuthHeader page={"login"}/>
             <RegisterForm/>
             <Footer />
 

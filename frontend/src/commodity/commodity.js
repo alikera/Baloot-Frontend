@@ -381,7 +381,7 @@ function Commodity() {
 
             {commodity && <CommodityInfo commodity={commodity}/>}
             {commodity && <Comments comments={commodity.comments} id={commodity.info.id}/>}
-            {suggested.length > 0 && <SuggestedCommodities suggested={suggested}/>}}
+            {suggested.length > 0 && <SuggestedCommodities suggested={suggested}/>}
             <footer className="position-relative">
                 <div className="container-fluid">
                     <div className="row">

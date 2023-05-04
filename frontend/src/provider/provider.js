@@ -3,6 +3,9 @@ import '../css/normalize.css';
 import '../css/provider.css';
 import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
+import ProviderInfo from "./providerInfo";
+import Commodity from "../home/commodityCard";
+import Footer from "../components/footer";
 import Header from "../components/Header";
 
 function Provider(){
@@ -29,42 +32,24 @@ function Provider(){
             <Header/>
             <main>
                 <div className="container text-center">
-                    <div className="provider-image-container mb-5">
-                        <img src={providerImage} alt="Big Image" />
-                        <div className="subtitle mt-2">
-                            <p>since {providerDate}</p>
-                        </div>
-                        <div className="provider-name">
-                            <p>{providerName}</p>
-                        </div>
-                    </div>
+                    <ProviderInfo providerImage={providerImage}
+                                  providerDate={providerDate}
+                                  providerName={providerName}/>
                     <div className="container mb-5">
                         <div className="all-provided mb-5">
                             <p>All provided commodities</p>
                         </div>
-                        <div className="row">
-                            {commodities.map((commodity, index) => (
-                                <div className="col-md-3 mb-4" key={index}>
-                                    <div className="card">
-                                        <div className="card-body">
-                                            <a href="#">
-                                                <h4 className="card-title">{commodity.name}</h4>
-                                            </a>
-                                            <p className="card-subtitle mb-2 mt-1">{commodity.inStock} left in stock</p>
-                                            <img className="card-img" src={commodity.image} alt={commodity.name} />
-
-                                            <div className="d-flex justify-content-between align-items-center mt-3">
-                                                <h7 className="card-text">{commodity.price}$</h7>
-                                                <button type="submit" className="add-cart-btn">add to cart</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
+                        <div className="container mb-5">
+                            <div className="row">
+                                {commodities.map((commodity, index) => (
+                                    <Commodity key={index} commodity={commodity} />
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>
             </main>
+            <Footer/>
         </>
     );
 }
