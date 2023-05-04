@@ -204,7 +204,7 @@ function UserCartDetails(props) {
                         <th scope="col" className="text-center">In Cart</th>
                     </tr>
                     </thead>
-                    {buyList.map((item, index) => (
+                    {buyList.length > 0 && (buyList.map((item, index) => (
                         <tbody className="table-body">
                         <tr>
                             <th scope="row" className="text-center">
@@ -227,8 +227,11 @@ function UserCartDetails(props) {
                             </td>
                         </tr>
                         </tbody>
-                        ))}
+                        )))}
                 </table>
+                {buyList.length === 0 && (<div className="empty-cart">
+                    your cart is empty
+                </div>)}
                 <form onSubmit={handlePay}>
                     <div className="text-center">
                         <button className="pay-btn">Pay Now!</button>
@@ -315,7 +318,7 @@ function UserHistoryDetails(props) {
                         <th scope="col" className="text-center">Quantity</th>
                     </tr>
                     </thead>
-                    {props.purchasedList.map((item) => (
+                    {props.purchasedList.length > 0 && (props.purchasedList.map((item) => (
                         <tbody className="table-body">
                         <tr>
                             <th scope="row" className="text-center">
@@ -332,8 +335,13 @@ function UserHistoryDetails(props) {
                             <td className="align-middle">{item.quantity}</td>
                         </tr>
                         </tbody>
-                    ))}
+                    )))}
                 </table>
+                {props.purchasedList.length === 0 && (
+                    <div className="empty-cart">
+                        your history cart  is empty
+                    </div>
+                )}
             </div>
         </>
     );
