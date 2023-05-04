@@ -1,6 +1,5 @@
 import React from 'react';
 import "../css/filterBar.css"
-
 function FilterBar(props) {
     const { availableFlag, handleAvailableCommodities, sortBy, handleSortByChange } = props;
 
