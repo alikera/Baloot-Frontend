@@ -63,5 +63,5 @@
 }
 button:disabled {
     background-color: #F5F5F5;
-    cursor: none;
+    cursor: default;
 }

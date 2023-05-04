@@ -8,6 +8,7 @@ import FilterBar from "./filterBar";
 import MyPagination from "../components/pagination";
 import CommodityCard from "./commodityCard";
 import HomeHeader from "./homeHeader";
+import {map} from "react-bootstrap/ElementChildren";
 
 
 function Home() {
@@ -21,6 +22,7 @@ function Home() {
     const [pageNumber, setPageNumber] = useState(1);
     const [username, setUsername] = useState('')
     const [cartCount, setCartCount]= useState(0);
+    const [buylist, setBuylist] = useState(new Map())
 
     // TODO: total page
     const [totalPages, setTotalPages] = useState(10);
@@ -33,6 +35,7 @@ function Home() {
         else {
             setUsername(JSON.parse(atob(userData)).userId);
             document.title = 'Home';
+
             setCommodities([]);
             setTotalPages(1);
             const apiUrl = `http://localhost:8080/api/?search=${searchQuery}&option=${searchOption}&available=${availableFlag}&sort=${sortBy}&page=${pageNumber}&username=${username}`;
@@ -40,8 +43,13 @@ function Home() {
                 setCommodities(response.data.commodities)
                 setTotalPages(response.data.totalPages)
                 setCartCount(response.data.cartCount)
+                setBuylist(response.data.buylist)
             });
+
+            console.log(buylist)
         }
+
+
     }, [sortBy, pageNumber, availableFlag, searchOption, searchQuery, username]);
 
     const handleSearchQueryChange = (event) => {
@@ -74,7 +82,8 @@ function Home() {
 
     return (
         <>
-            <HomeHeader searchOption={searchOption}
+            <HomeHeader isHome={1}
+                        searchOption={searchOption}
                     handleSearchOption={handleSearchOption}
                     searchQuery={searchQuery}
                     handleSearchQueryChange={handleSearchQueryChange}
@@ -92,7 +101,13 @@ function Home() {
                     <div className="container mb-5">
                         <div className="row">
                             {commodities.map((commodity, index) => (
-                                <CommodityCard key={index} commodity={commodity} handleIncreaseCartCount={increaseCartCount} handleDecreaseCartCount={decreaseCartCount}/>
+                                <CommodityCard key={index}
+                                               commodity={commodity}
+                                               handleIncreaseCartCount={increaseCartCount}
+                                               handleDecreaseCartCount={decreaseCartCount}
+                                               buylist={buylist}
+                                               username={username}
+                                />
                             ))}
                         </div>
                     </div>

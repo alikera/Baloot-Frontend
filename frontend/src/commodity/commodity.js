@@ -7,6 +7,9 @@ import { Modal } from 'react-bootstrap';
 import userEvent from "@testing-library/user-event";
 import Login from "../auth/login";
 import {forEach} from "react-bootstrap/ElementChildren";
+import CommodityCard from "../home/commodityCard";
+import HiddenJs from "@mui/material/Hidden/HiddenJs";
+import HomeHeader from "../home/homeHeader";
 
 function CommodityInfo(props) {
     const navigate = useNavigate();
@@ -43,7 +46,7 @@ function CommodityInfo(props) {
     return (
         <>
             <div className="container">
-                <div className="row">
+                <div className="commodity-info row">
                     <div className="col-md-6">
                         <img className="img" src={info[0].image} alt={info[0].name}/>
                     </div>
@@ -317,6 +320,13 @@ function SuggestedCommodities(props) {
             <h4 className="suggestions-title">You also might like...</h4>
             <div className="card-group mt-4">
                 {commodities[0].map((item, index) => (
+                    // <CommodityCard key={index}
+                    //                commodity={item}
+                    //                handleIncreaseCartCount={increaseCartCount}
+                    //                handleDecreaseCartCount={decreaseCartCount}
+                    //                buylist={buylist}
+                    //                username={username}
+                    // />
                     <div className="card">
                         <div className="card-body">
                             <a className="card-title" href="#">
@@ -337,8 +347,10 @@ function SuggestedCommodities(props) {
 }
 
 function Commodity() {
+
     const id = useParams()
     useEffect(() => {
+
         document.title = 'Commodity';
         return () => {
         };
@@ -350,34 +362,36 @@ function Commodity() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/api/commodity/${id.id}`).then((response) => {
+        axios.get(`http://localhost:8080/api/commodity/${id.id}/amir`).then((response) => {
             setCommodity(response.data);
             setSuggested(response.data.suggested);
+
         });
     }, []);
     console.log(suggested.length)
     return (
         <>
-            <header className="header-container">
-                <nav className="navbar">
-                    <div className="container-fluid d-flex justify-content-between">
-                        <a className="navbar-brand" href="/">
-                            <img className="logo" src="/Logo.png" alt="Logo"/>
-                        </a>
-                        <div className="info-container-fluid d-flex justify-content-between">
-                            <div className="username">#username</div>
-                            <div className={`cart-container d-flex ${buyList.length === 0 ? 'cart-container-zero' : 'cart-container'}`}>
-                                <div className="cart">
-                                    Cart
-                                </div>
-                                <div className="cartNum">
-                                    0
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
-            </header>
+            {<HomeHeader isHome={0}/>}
+            {/*<header className="header-container">*/}
+            {/*    <nav className="navbar">*/}
+            {/*        <div className="container-fluid d-flex justify-content-between">*/}
+            {/*            <a className="navbar-brand" href="/">*/}
+            {/*                <img className="logo" src="/Logo.png" alt="Logo"/>*/}
+            {/*            </a>*/}
+            {/*            <div className="info-container-fluid d-flex justify-content-between">*/}
+            {/*                <div className="username">#username</div>*/}
+            {/*                <div className={`cart-container d-flex ${buyList.length === 0 ? 'cart-container-zero' : 'cart-container'}`}>*/}
+            {/*                    <div className="cart">*/}
+            {/*                        Cart*/}
+            {/*                    </div>*/}
+            {/*                    <div className="cartNum">*/}
+            {/*                        0*/}
+            {/*                    </div>*/}
+            {/*                </div>*/}
+            {/*            </div>*/}
+            {/*        </div>*/}
+            {/*    </nav>*/}
+            {/*</header>*/}
 
             {commodity && <CommodityInfo commodity={commodity}/>}
             {commodity && <Comments comments={commodity.comments} id={commodity.info.id}/>}
