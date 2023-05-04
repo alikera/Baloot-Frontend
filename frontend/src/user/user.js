@@ -42,16 +42,23 @@ function UserInfo(props) {
                               <div className="username-text">{props.user.username}</div>
                       </div>
                       <div className="container-fluid d-flex">
-                          <img className="username-img" src="/mail.png" alt="user"/>
+                          <img className="username-img" src="/mail.png" alt="mail"/>
                               <div className="username-text">{props.user.email}</div>
                       </div>
                       <div className="container-fluid d-flex">
-                          <img className="username-img" src="/calender.png" alt="user"/>
+                          <img className="username-img" src="/calender.png" alt="calender"/>
                               <div className="username-text">{props.user.birthDate}</div>
                       </div>
                       <div className="container-fluid d-flex">
-                          <img className="username-img" src="/location.png" alt="user"/>
+                          <img className="username-img" src="/location.png" alt="location"/>
                               <div className="username-text">{props.user.address}</div>
+                      </div>
+                      <div className="logout-div">
+                          <a href="/login">
+                              <button className="btn-logout" type="button">
+                                  logout
+                              </button>
+                          </a>
                       </div>
                   </div>
                   <div className="user-credit col-md-6">
@@ -210,7 +217,7 @@ function UserCartDetails(props) {
                 </table>
                 <form onSubmit={handlePay}>
                     <div className="text-center">
-                        <button className="pay-btn">Pay Now!{props.user.credit}</button>
+                        <button className="pay-btn">Pay Now!</button>
                     </div>
                 </form>
                 <Modal show={showModal} onHide={toggleModal}>

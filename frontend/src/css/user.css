@@ -40,6 +40,19 @@
 .username-text{
     margin-left: 10px;
 }
+
+.btn-logout {
+    background-color:  #593c1c;
+    color: #F7F0E9;
+    border-style: none;
+    border-radius: 10px;
+    padding: 1.5% 3% 1.5% 3%;
+}
+
+.logout-div {
+    margin-top: 2%;
+    text-align: center;
+}
 .cart-img{
     width: 25px;
     height: 25px;
@@ -168,8 +181,15 @@ tbody:before {
     border: 1px solid #919191;
     box-shadow: 0px 4px 4px rgba(208, 208, 208, 0.25);
 }
+
+.dollar-sign {
+    height: 5%;
+    width: 5%;
+}
+
 .user-credit {
     padding-right: 10%;
+    text-align: center;
 }
 
 .credit-amount {

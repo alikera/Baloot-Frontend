@@ -6,6 +6,7 @@ import Register from "./auth/register";
 import User from "./user/user";
 import Home from "./home/homeCommodities";
 import Provider from "./provider/provider";
+import Commodity from "./commodity/commodity";
 
 function App() {
     return (<Router>
@@ -15,6 +16,7 @@ function App() {
             <Route path="/user" element={<User/>}/>
             <Route path="/" element={<Home/>}/>
             <Route path="/provider/:providerId" element={<Provider/>}/>
+            <Route path="/commodity/:id" element={<Commodity/>}/>
         </Routes>
     </Router>);
 }
