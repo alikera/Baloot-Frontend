@@ -12,7 +12,7 @@ function Login() {
     useEffect(() => {
         const userData = localStorage.getItem('userData');
         if (userData) {
-            navigate('/user?username=' + JSON.parse(atob(userData)).userId);
+            navigate('/');
         }
         document.title = 'Login';
     }, []);
@@ -38,9 +38,8 @@ function Login() {
         if (response.status === 200) {
             const encryptedData = btoa(JSON.stringify({ userId: username }));
             localStorage.setItem('userData', encryptedData);
-            navigate('/user/' + username);
+            navigate('/');
         } else {
-            console.log('WRONG');
             navigate('/login');
         }
     }

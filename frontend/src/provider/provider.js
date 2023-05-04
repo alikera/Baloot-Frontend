@@ -6,7 +6,7 @@ import axios from "axios";
 import ProviderInfo from "./providerInfo";
 import Commodity from "../home/commodityCard";
 import Footer from "../components/footer";
-import Header from "../components/Header";
+import Header from "../components/header";
 
 function Provider(){
     const [commodities, setCommodities] = useState([]);

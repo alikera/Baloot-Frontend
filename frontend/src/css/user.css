@@ -51,7 +51,7 @@
 
 .logout-div {
     margin-top: 2%;
-    text-align: center;
+    margin-left: 2%;
 }
 .cart-img{
     width: 25px;
@@ -61,6 +61,53 @@
     margin-top: 30px;
     margin-left: 8%;
     margin-right: 8%;
+}
+
+.item-info {
+    margin-top: 5%;
+}
+
+.item-name {
+    color: #593C1C;
+}
+.item-price {
+    margin-right: 10%;
+    color: #A97B47;
+}
+
+.apply-discount {
+    margin-top: 5%;
+}
+
+.apply-discount input {
+    border-radius: 10px;
+}
+
+.apply-discount button {
+    margin-right: 10%;
+    border-style: none;
+    border-radius: 10px;
+    background: #593C1C;
+    color: #FFFFFF;
+}
+.total-cost {
+    margin-top: 5%;
+    color: #593c1c;
+}
+.total-cost p:last-child {
+    margin-right: 10%;
+    color: #C82525;
+}
+
+.total-cost-discount {
+    margin-top: 5%;
+    color: #593c1c;
+}
+
+.total-cost-discount p:last-child {
+    margin-right: 10%;
+    color: #D8C1A8;
+    text-decoration: line-through;
 }
 
 .history-details-container {
@@ -207,6 +254,26 @@ tbody:before {
     color: #FFFFFF;
     margin-top: 2%;
     border-style: none;
+}
+
+.close-btn {
+    color: #C82525;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.confirm-btn {
+    border-radius: 15px;
+    border-style: none;
+    color: #FFFFFF;
+    background: #593C1C;
+    padding: 2% 3% 2% 3%;
+}
+
+.centered-modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 tbody {

@@ -4,10 +4,10 @@ import "../css/normalize.css";
 import Commodity from "./commodityCard";
 import Footer from "../components/footer";
 import { useNavigate } from 'react-router-dom';
-import MyPagination from "../components/Pagination";
-import FilterBar from "./FilterBar";
-import HomeHeader from "./HomeHeader";
+import FilterBar from "./filterBar";
+import MyPagination from "../components/pagination";
 import CommodityCard from "./commodityCard";
+import HomeHeader from "./homeHeader";
 
 
 function Home() {
@@ -27,21 +27,21 @@ function Home() {
 
     useEffect(() => {
         const userData = localStorage.getItem('userData');
-        setUsername(JSON.parse(atob(userData)).userId);
         if (!userData) {
             navigate('/login');
         }
-        document.title = 'Home';
-        setCommodities([]);
-        setTotalPages(1);
-        const apiUrl = `http://localhost:8080/api/?search=${searchQuery}&option=${searchOption}&available=${availableFlag}&sort=${sortBy}&page=${pageNumber}&username=${username}`;
-        axios.get(apiUrl).then((response) => {
-            setCommodities(response.data.commodities)
-            setTotalPages(response.data.totalPages)
-            setCartCount(response.data.cartCount)
-        });
-
-
+        else {
+            setUsername(JSON.parse(atob(userData)).userId);
+            document.title = 'Home';
+            setCommodities([]);
+            setTotalPages(1);
+            const apiUrl = `http://localhost:8080/api/?search=${searchQuery}&option=${searchOption}&available=${availableFlag}&sort=${sortBy}&page=${pageNumber}&username=${username}`;
+            axios.get(apiUrl).then((response) => {
+                setCommodities(response.data.commodities)
+                setTotalPages(response.data.totalPages)
+                setCartCount(response.data.cartCount)
+            });
+        }
     }, [sortBy, pageNumber, availableFlag, searchOption, searchQuery, username]);
 
     const handleSearchQueryChange = (event) => {

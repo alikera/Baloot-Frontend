@@ -9,6 +9,7 @@ import Login from "../auth/login";
 import {forEach} from "react-bootstrap/ElementChildren";
 
 function UserInfo(props) {
+    const userData = localStorage.getItem('userData');
     const navigate = useNavigate();
     const [credit, setCredit] = useState('')
 
@@ -31,6 +32,18 @@ function UserInfo(props) {
             window.location.href("google.com");
         }
     }
+
+    function handleLogout() {
+        localStorage.removeItem('userData')
+    }
+
+    useEffect(() => {
+        const userData = localStorage.getItem('userData');
+        if (!userData) {
+            navigate('/login');
+        }
+    },[])
+
     return (
       <>
           <div className="user-details">
@@ -38,7 +51,7 @@ function UserInfo(props) {
                   <div className="user-info col-md-6">
                       <div className="container-fluid d-flex">
                           <img className="username-img" src="/username.png" alt="user"/>
-                              <div className="username-text">{props.user.username}</div>
+                          <div className="username-text">{props.user.username}</div>
                       </div>
                       <div className="container-fluid d-flex">
                           <img className="username-img" src="/mail.png" alt="mail"/>
@@ -54,7 +67,7 @@ function UserInfo(props) {
                       </div>
                       <div className="logout-div">
                           <a href="/login">
-                              <button className="btn-logout" type="button">
+                              <button className="btn-logout" type="button" onClick={handleLogout}>
                                   logout
                               </button>
                           </a>
@@ -79,19 +92,19 @@ function UserInfo(props) {
                       </form>
                   </div>
               </div>
-              <Modal show={showModal} onHide={toggleModal}>
+              <Modal show={showModal} onHide={toggleModal} className="centered-modal">
                   <Modal.Header closeButton>
-                      <Modal.Title>Confirm Credit Addition</Modal.Title>
+                      <Modal.Title>Add Credit</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
-                      Are you sure you want to add {credit} credits?
+                      Are you sure you want to add {credit}$ to your account
                   </Modal.Body>
                   <Modal.Footer>
-                      <button variant="secondary" onClick={toggleModal}>
-                          Cancel
-                      </button>
-                      <button variant="primary" onClick={handleConfirm}>
-                          Confirm
+                      <p className="close-btn" variant="secondary" onClick={toggleModal}>
+                          close
+                      </p>
+                      <button className="confirm-btn" variant="primary" onClick={handleConfirm}>
+                          Confirm!
                       </button>
                   </Modal.Footer>
               </Modal>
@@ -118,6 +131,10 @@ function UserCartDetails(props) {
 
 
     function toggleModal() {
+        if (showModal) {
+            setDiscountValue(0)
+            setDiscountCode('')
+        }
         setShowModal(!showModal);
     }
 
@@ -191,7 +208,9 @@ function UserCartDetails(props) {
                         <tbody className="table-body">
                         <tr>
                             <th scope="row" className="text-center">
-                                <img className="buy-list-img" src={item.info.image} alt={item.info.name} />
+                                <a href={`/commodity/${item.info.id}`}>
+                                    <img className="buy-list-img" src={item.info.image} alt={item.info.name} />
+                                </a>
                             </th>
                             <td className="align-middle">{item.info.name}</td>
                             <td className="align-middle">{item.info.categories.join(", ")}</td>
@@ -217,31 +236,53 @@ function UserCartDetails(props) {
                 </form>
                 <Modal show={showModal} onHide={toggleModal}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Confirm Buy Addition</Modal.Title>
+                        <Modal.Title>Your cart</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        Total Cost: ${totalCost}
-                        <br />
-                        Discount: {discountValue * 100}%
-                        <br />
-                        Must Pay: ${totalCost * (1-discountValue)}
-                        <br />
-                        <input type="text"
-                               placeholder="Discount Code"
-                               value={discountCode}
-                               id="discount-code"
-                               onChange={(event) => setDiscountCode(event.target.value)}
-                               required/>
-                        <button variant="primary" onClick={handleApplyDiscount}>
-                            Apply Discount
-                        </button>
+                        {buyList.map((item, index) => (
+                            <div className="item-info d-flex justify-content-between">
+                                <li className="item-name">{item.info.name} x{item.quantity}</li>
+                                <div className="item-price">{item.quantity * item.info.price}$</div>
+                            </div>
+                        ))}
+                        <div className="apply-discount d-flex justify-content-between">
+                            <div>
+                                <input type="text"
+                                       placeholder="Code"
+                                       value={discountCode}
+                                       id="discount-code"
+                                       onChange={(event) => setDiscountCode(event.target.value)}
+                                       required/>
+                            </div>
+                            <button onClick={handleApplyDiscount}>
+                                Submit
+                            </button>
+                        </div>
+                        <div className={`${discountValue !== 0 ? 'total-cost-discount d-flex justify-content-between' : 'total-cost d-flex justify-content-between'}`}>
+                            <p>
+                                total
+                            </p>
+                            <p>
+                                ${totalCost}
+                            </p>
+                        </div>
+                        { discountValue !== 0 && (
+                            <div className="total-cost d-flex justify-content-between">
+                                <p>
+                                    with discount
+                                </p>
+                                <p>
+                                    ${totalCost * (1 - discountValue)}
+                                </p>
+                            </div>
+                        )}
                     </Modal.Body>
                     <Modal.Footer>
-                        <button variant="secondary" onClick={toggleModal}>
-                            Cancel
-                        </button>
-                        <button variant="primary" onClick={handleBuy}>
-                            Buy
+                        <p className="close-btn" variant="secondary" onClick={toggleModal}>
+                            close
+                        </p>
+                        <button className="confirm-btn" variant="primary" onClick={handleBuy}>
+                            Buy!
                         </button>
                     </Modal.Footer>
                 </Modal>
@@ -278,7 +319,9 @@ function UserHistoryDetails(props) {
                         <tbody className="table-body">
                         <tr>
                             <th scope="row" className="text-center">
-                                <img className="buy-list-img" src={item.info.image} alt={item.info.name} />
+                                <a href={`/commodity/${item.info.id}`}>
+                                    <img className="buy-list-img" src={item.info.image} alt={item.info.name} />
+                                </a>
                             </th>
                             <td className="align-middle">{item.info.name}</td>
                             <td className="align-middle">{item.info.categories.join(", ")}</td>
