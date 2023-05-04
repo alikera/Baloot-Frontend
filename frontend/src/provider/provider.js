@@ -3,6 +3,7 @@ import '../css/normalize.css';
 import '../css/provider.css';
 import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
+import Header from "../components/Header";
 
 function Provider(){
     const [commodities, setCommodities] = useState([]);
@@ -25,27 +26,7 @@ function Provider(){
     }, []);
     return (
         <>
-            <header className="header-container">
-                <nav className="navbar">
-                    <div className="container-fluid d-flex justify-content-between">
-                        <a className="navbar-brand" href="/">
-                            <img className="logo" src="/Logo.png" alt="Logo"/>
-                        </a>
-                        <div className="info-container-fluid d-flex justify-content-between">
-                            <a href="/provider">
-                                <button className="register-btn" type="button">
-                                    Register
-                                </button>
-
-                            </a>
-
-                            <button className="login-btn" type="button">
-                                Login
-                            </button>
-                        </div>
-                    </div>
-                </nav>
-            </header>
+            <Header/>
             <main>
                 <div className="container text-center">
                     <div className="provider-image-container mb-5">

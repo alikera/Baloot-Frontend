@@ -1,24 +1,3 @@
-.register-btn {
-    border-style: none;
-    border-radius: 10px;
-    background-color:  #F7F0E9;
-    color: #A97B47;
-    margin-right: 5px;
-    min-height: 38px;
-    min-width: 101px;
-    cursor: pointer;
-}
-.login-btn {
-    border-style: none;
-    border-radius: 10px;
-    background-color:  #F7F0E9;
-    color: #A97B47;
-    margin-right: 5px;
-    min-height: 38px;
-    min-width: 101px;
-    cursor: pointer;
-}
-
 .form-group {
     display: flex;
     flex-direction: column;
