@@ -18,20 +18,56 @@ function CommodityInfo(props) {
     const [quantity, setQuantity] = useState(0)
     const [rating, setRating] = useState(info[0].rating)
     const [countOfRatings, setCountOfRatings] = useState(info[0].countOfRatings)
+    const [inStock, setInStock] = useState(info[0].inStock)
 
-    function handleAddToCart() {
+    useEffect( () => {
+        console.log(props.commodity.buyList)
+        console.log(info)
+        if (props.commodity.buyList[info[0].id] !== undefined) {
+            setQuantity(props.commodity.buyList[info[0].id])
+        }
+    }, [])
+
+    async function handleAddToCart(event) {
+        event.stopPropagation();
         setQuantity(1);
-    }
 
-    function handleIncrement() {
-        if (info[0].inStock > quantity) {
-            setQuantity(quantity + 1);
+        props.increaseCart();
+        const response = await axios.put(`http://localhost:8080/api/user/buyList/${props.username}`, {
+            commodityId: info[0].id,
+            count: "1"
+        });
+        if(response.status === 200) {
+            setInStock(response.data)
         }
     }
-
-    function handleDecrement() {
+    async function handleIncrement(event) {
+        event.stopPropagation();
+        if (info[0].inStock > 0) {
+            setQuantity(quantity + 1);
+            const response = await axios.put(`http://localhost:8080/api/user/buyList/${props.username}`, {
+                commodityId: info[0].id,
+                count: "1"
+            });
+            if(response.status === 200){
+                setInStock(response.data)
+            }
+        }
+    }
+    async function handleDecrement(event) {
+        event.stopPropagation();
         if (quantity > 0) {
+            if (quantity === 1) {
+                props.decreaseCart()
+            }
             setQuantity(quantity - 1);
+            const response = await axios.put(`http://localhost:8080/api/user/buyList/${props.username}`, {
+                commodityId: info[0].id,
+                count: "-1"
+            });
+            if(response.status === 200){
+                setInStock(response.data)
+            }
         }
     }
 
@@ -54,7 +90,7 @@ function CommodityInfo(props) {
                         <div className="container-fluid">
                             <h1 className="product-title">{info[0].name}</h1>
                             <div className="d-flex justify-content-between">
-                                <h6 className="stock-left">{info[0].inStock} left in stock</h6>
+                                <h6 className="stock-left">{inStock} left in stock</h6>
                                 <div className="d-flex">
                                     <img className="rating-image" src="/Star.png" alt="star"/>
                                         <h4 className="commodity-rate">{rating}</h4>
@@ -72,17 +108,34 @@ function CommodityInfo(props) {
                         </div>
                         <div className="priceAdd container-fluid d-flex justify-content-between">
                             <h4 className="price">${info[0].price}</h4>
-                            {quantity > 0 ? info[0].inStock > 0 && (
+                            {quantity > 0 && inStock > 0 ? (
                                 <div className="counter">
                                     <button className="counter-btn" id={`decrement`} onClick={handleDecrement}>-</button>
                                     <div className="counter-value" id={`counter`}>{quantity}</div>
                                     <button className="counter-btn" id={`increment`} onClick={handleIncrement}>+</button>
                                 </div>
-                            ) : info[0].inStock > 0 && (
-                                <div className="add-to-cart">
-                                    <button className="add-btn" type="submit" onClick={handleAddToCart}>Add to Cart</button>
+                            ) : quantity > 0 && inStock === 0 ? (
+                                <div className="counter">
+                                    <button className="counter-btn" id={`decrement`} onClick={handleDecrement}>-</button>
+                                    <div className="counter-value" id={`counter`}>{quantity}</div>
+                                    <button className="counter-btn" id={`increment`} disabled>+</button>
                                 </div>
+                            ) : quantity === 0 && inStock > 0 ? (
+                                <button className="add-cart-btn" type="submit" onClick={handleAddToCart}>Add to Cart</button>
+                            ) : (
+                                <div></div>
                             )}
+                            {/*{quantity > 0 ? info[0].inStock > 0 && (*/}
+                            {/*    <div className="counter">*/}
+                            {/*        <button className="counter-btn" id={`decrement`} onClick={handleDecrement}>-</button>*/}
+                            {/*        <div className="counter-value" id={`counter`}>{quantity}</div>*/}
+                            {/*        <button className="counter-btn" id={`increment`} onClick={handleIncrement}>+</button>*/}
+                            {/*    </div>*/}
+                            {/*) : info[0].inStock > 0 && (*/}
+                            {/*    <div className="add-to-cart">*/}
+                            {/*        <button className="add-btn" type="submit" onClick={handleAddToCart}>Add to Cart</button>*/}
+                            {/*    </div>*/}
+                            {/*)}*/}
                         </div>
                         {<Rate id={info[0].id} onRatingChange={handleRatingChange} onCounOfRatingsChange={handleCountOfRatingsChange}/>}
                     </div>
@@ -347,53 +400,74 @@ function SuggestedCommodities(props) {
 }
 
 function Commodity() {
-
-    const id = useParams()
-    useEffect(() => {
-
-        document.title = 'Commodity';
-        return () => {
-        };
-    }, []);
     const [commodity, setCommodity] = useState('')
     const [suggested, setSuggested] = useState('')
     const [comments, setComments] = useState('')
-    const [buyList, setBuyList] = useState('')
+    const [username, setUsername] = useState('')
+    const [cartCount, setCartCount]= useState(0);
+
     const navigate = useNavigate();
-
+    const id = useParams()
     useEffect(() => {
-        axios.get(`http://localhost:8080/api/commodity/${id.id}/amir`).then((response) => {
-            setCommodity(response.data);
-            setSuggested(response.data.suggested);
-
-        });
+        const userData = localStorage.getItem('userData');
+        if (!userData) {
+            navigate('/login');
+        }
+        else {
+            setUsername(JSON.parse(atob(userData)).userId);
+            document.title = 'Commodity';
+        }
     }, []);
-    console.log(suggested.length)
+
+    useEffect( () => {
+        console.log(username)
+        if (username !== '') {
+            axios.get(`http://localhost:8080/api/commodity/${id.id}/${username}`).then((response) => {
+                setCommodity(response.data);
+                setSuggested(response.data.suggested);
+                setCartCount(response.data.cartCount)
+            });
+        }
+    }, [username])
+
+    function increaseCartCount() {
+        setCartCount(cartCount + 1)
+    }
+
+    function decreaseCartCount() {
+        setCartCount(cartCount - 1)
+    }
+
     return (
         <>
-            {<HomeHeader isHome={0}/>}
-            {/*<header className="header-container">*/}
-            {/*    <nav className="navbar">*/}
-            {/*        <div className="container-fluid d-flex justify-content-between">*/}
-            {/*            <a className="navbar-brand" href="/">*/}
-            {/*                <img className="logo" src="/Logo.png" alt="Logo"/>*/}
-            {/*            </a>*/}
-            {/*            <div className="info-container-fluid d-flex justify-content-between">*/}
-            {/*                <div className="username">#username</div>*/}
-            {/*                <div className={`cart-container d-flex ${buyList.length === 0 ? 'cart-container-zero' : 'cart-container'}`}>*/}
-            {/*                    <div className="cart">*/}
-            {/*                        Cart*/}
-            {/*                    </div>*/}
-            {/*                    <div className="cartNum">*/}
-            {/*                        0*/}
-            {/*                    </div>*/}
-            {/*                </div>*/}
-            {/*            </div>*/}
-            {/*        </div>*/}
-            {/*    </nav>*/}
-            {/*</header>*/}
+            <header className="header-container">
+                <nav className="navbar">
+                    <div className="container-fluid d-flex justify-content-between">
+                        <a className="navbar-brand" href="/">
+                            <img className="logo" src="/Logo.png" alt="Logo"/>
+                        </a>
+                        <div className="info-container-fluid d-flex justify-content-between">
+                            <a href={`http://localhost:3000/user/${username}`}>
+                                <div className="username">#{username}</div>
 
-            {commodity && <CommodityInfo commodity={commodity}/>}
+                            </a>
+                            <div className={`cart-container d-flex ${cartCount === 0 ? 'cart-container-zero' : 'cart-container'}`}>
+                                <div className="cart">
+                                    Cart
+                                </div>
+                                <div className="cartNum">
+                                    {cartCount}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </header>
+
+            {commodity && <CommodityInfo commodity={commodity}
+                                         username={username}
+                                         increaseCart={increaseCartCount}
+                                         decreaseCart={decreaseCartCount}/>}
             {commodity && <Comments comments={commodity.comments} id={commodity.info.id}/>}
             {suggested.length > 0 && <SuggestedCommodities suggested={suggested}/>}
             <footer className="position-relative">
