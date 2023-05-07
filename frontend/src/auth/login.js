@@ -6,6 +6,9 @@ import Footer from '../components/footer';
 import AuthHeader from '../auth/authHeader'
 import FormField from "./formField";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function Login() {
 
     const navigate = useNavigate();
@@ -16,6 +19,9 @@ function Login() {
         }
         document.title = 'Login';
     }, []);
+
+    const loginError = () => toast.error("Incorrect username or password!");
+    const loginSuccess = () => toast.success("You logged in successfully!")
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -38,9 +44,10 @@ function Login() {
         if (response.status === 200) {
             const encryptedData = btoa(JSON.stringify({ userId: username }));
             localStorage.setItem('userData', encryptedData);
+            loginSuccess()
             navigate('/');
         } else {
-            navigate('/login');
+            loginError()
         }
     }
 
@@ -75,6 +82,7 @@ function Login() {
         <>
             <AuthHeader page={"register"}/>
             <LoginForm/>
+            <ToastContainer />
             <Footer/>
         </>
     );

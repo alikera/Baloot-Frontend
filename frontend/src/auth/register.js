@@ -12,7 +12,7 @@ function Register() {
     useEffect(() => {
         const userData = localStorage.getItem('userData');
         if (userData) {
-            navigate('/user/' + JSON.parse(atob(userData)).userId);
+            navigate('/');
         }
         document.title = 'Register';
     }, []);
@@ -41,7 +41,6 @@ function Register() {
                 });
 
             if (response.status === 200) {
-                console.log(formData)
                 navigate('/login');
             }
         } catch (error) {
