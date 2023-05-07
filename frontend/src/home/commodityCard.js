@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import "../css/commodityCard.css"
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
-function CommodityCard({ commodity , handleIncreaseCartCount, handleDecreaseCartCount, buylist, username}) {
+function CommodityCard({ width="100%", commodity , handleIncreaseCartCount, handleDecreaseCartCount, buylist, username}) {
     const navigate = useNavigate()
     const [quantity, setQuantity] = useState(0)
     const [inStock, setInStock] = useState(commodity.inStock)
@@ -14,7 +14,7 @@ function CommodityCard({ commodity , handleIncreaseCartCount, handleDecreaseCart
     }, [])
 
     function handleOnClickCommodity(){
-        navigate(`commodity/${commodity.id}`)
+        window.location.href = `http://localhost:3000/commodity/${commodity.id}`;
     }
 
     async function handleAddToCart(event) {
@@ -65,8 +65,7 @@ function CommodityCard({ commodity , handleIncreaseCartCount, handleDecreaseCart
 
     return (
         <div className="col-md-3 mb-4">
-            <div className="card" onClick={handleOnClickCommodity}>
-                <div className="card-body">
+            <div className="card" onClick={handleOnClickCommodity} style={{width: width}}>                <div className="card-body">
                     <h4 className="card-title">{commodity.name}</h4>
                     <p className="card-subtitle mb-2 mt-1">
                         {inStock} left in stock

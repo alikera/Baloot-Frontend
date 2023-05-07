@@ -7,6 +7,8 @@ import { Modal } from 'react-bootstrap';
 import userEvent from "@testing-library/user-event";
 import Login from "../auth/login";
 import {forEach} from "react-bootstrap/ElementChildren";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function UserInfo(props) {
     const userData = localStorage.getItem('userData');
@@ -144,28 +146,50 @@ function UserCartDetails(props) {
         toggleModal();
     }
 
+    const creditError = () => toast.error("Not enough credit!");
+    const NotFoundDiscountError = () => toast.error("Discount code not found!");
+
+    const DuplicateDiscountError = () => toast.error("Discount code already used!");
+
     async function handleBuy(event) {
         event.preventDefault();
         let keys = buyList.map((item) => item.info.id.toString());
         let values = buyList.map((item) => item.quantity.toString());
 
         const requestBody = { keys, values };
-        const response = await axios.post(`http://localhost:8080/api/user/pay/${props.username}?discountCode=${discountCode}&discountValue=${discountValue}`,requestBody);
 
-        if (response.status === 200) {
-            window.location.reload();
-        } else {
+        try {
+            const response = await axios.post(`http://localhost:8080/api/user/pay/${props.username}?discountCode=${discountCode}&discountValue=${discountValue}`, requestBody);
+
+            if (response.status === 200) {
+                window.location.reload();
+            }
+        } catch (error) {
+            if (error.response && error.response.status === 400) {
+                console.log("ssssssss")
+                creditError();
+            }
         }
     }
 
     async function handleApplyDiscount(event) {
         event.preventDefault();
-        const response = await axios.get(`http://localhost:8080/api/user/discount?code=${discountCode}`);
 
-        if (response.status === 200) {
-            setDiscountValue(response.data);
-        } else {
+        try {
+            const response = await axios.get(`http://localhost:8080/api/user/discount?code=${discountCode}&username=${props.username}`);
 
+            if (response.status === 200) {
+                setDiscountValue(response.data);
+            } else {
+
+            }
+        }catch (error){
+            if (error.response && error.response.status === 404) {
+                NotFoundDiscountError();
+            }
+            else if (error.response && error.response.status === 400) {
+                DuplicateDiscountError();
+            }
         }
     }
 
@@ -181,16 +205,24 @@ function UserCartDetails(props) {
             updatedList[index].quantity -= 1;
             setBuyList(updatedList);
         }
-        else if (updatedList[index].quantity == 1) {
-            updatedList[index].quantity -= 1;
-            setBuyList(updatedList);
-        }
+        // else if (updatedList[index].quantity === 1) {
+        //     updatedList[index].quantity -= 1;
+        //     setBuyList(updatedList);
+        // }
     }
 
-    function handleRemove(index) {
+
+    async function handleRemove(index) {
         const updatedList = [...buyList];
         updatedList.splice(index, 1);
-        setBuyList(updatedList);
+        // Update the index prop for all TableRow components
+        const updatedRows = updatedList.map((item, index) => ({
+            ...item,
+            index: index
+        }));
+
+        setBuyList(updatedRows);
+        props.handleModifyBuyList(updatedRows);
     }
 
     return(
@@ -217,6 +249,7 @@ function UserCartDetails(props) {
                     </thead>
                     {buyList.length > 0 && (buyList.map((item, index) => (
                         <TableRow index={index}
+                                  key={item.id}
                                   username={props.username}
                                   commodity={item}
                                   handleInc={handleIncrement}
@@ -294,7 +327,6 @@ function TableRow(props) {
     const item = useState(props.commodity)
     const [inStock, setInStock] = useState(item[0].info.inStock)
     const [quantity, setQuantity] = useState(item[0].quantity)
-    console.log(item[0])
     async function handleIncrement(event) {
         event.stopPropagation();
         if (inStock > 0) {
@@ -306,8 +338,8 @@ function TableRow(props) {
             if(response.status === 200){
                 setInStock(response.data)
             }
+            props.handleInc(props.index)
         }
-        props.handleInc(props.index)
     }
 
     async function handleDecrement(event) {
@@ -324,10 +356,11 @@ function TableRow(props) {
             if(response.status === 200){
                 setInStock(response.data)
             }
+            props.handleDec(props.index)
         }
-        props.handleDec(props.index)
     }
-
+    console.log("xxxxxxxx")
+    console.log(item[0].info.name)
     return (
         <>
             <tbody className="table-body">
@@ -453,7 +486,6 @@ function User() {
         if (username) {
             axios.get("http://localhost:8080/api/user/buyList/" + username).then((responseBuyListList) => {
                 setBuyList(responseBuyListList.data);
-                console.log(buyList)
             });
         }
     }, []);
@@ -464,7 +496,9 @@ function User() {
             });
         }
     }, []);
-
+    function handleModifyBuyList(NewBuyList){
+        setBuyList(NewBuyList)
+    }
     return (
         <>
             <header className="header-container">
@@ -489,7 +523,10 @@ function User() {
             </header>
 
             {user && <UserInfo user={user}/>}
-            {buyList && <UserCartDetails username={username} user={user} buyList={buyList}/>}
+            {buyList && <UserCartDetails username={username}
+                                         user={user}
+                                         buyList={buyList}
+                                         handleModifyBuyList={handleModifyBuyList}/>}
             {purchasedList && <UserHistoryDetails purchasedList={purchasedList}/>}
             <footer className="position-relative">
                 <div className="container-fluid">
@@ -500,6 +537,8 @@ function User() {
                     </div>
                 </div>
             </footer>
+            <ToastContainer />
+
         </>
     );
 }

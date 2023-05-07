@@ -10,6 +10,7 @@ import {forEach} from "react-bootstrap/ElementChildren";
 import CommodityCard from "../home/commodityCard";
 import HiddenJs from "@mui/material/Hidden/HiddenJs";
 import HomeHeader from "../home/homeHeader";
+import commodityCard from "../home/commodityCard";
 
 function CommodityInfo(props) {
     const navigate = useNavigate();
@@ -19,6 +20,7 @@ function CommodityInfo(props) {
     const [rating, setRating] = useState(info[0].rating)
     const [countOfRatings, setCountOfRatings] = useState(info[0].countOfRatings)
     const [inStock, setInStock] = useState(info[0].inStock)
+    const [providerId, setProviderId] = useState(info[0].providerId)
 
     useEffect( () => {
         console.log(props.commodity.buyList)
@@ -78,7 +80,6 @@ function CommodityInfo(props) {
     function handleCountOfRatingsChange(newCount) {
         setCountOfRatings(newCount)
     }
-
     return (
         <>
             <div className="container">
@@ -98,7 +99,7 @@ function CommodityInfo(props) {
                                 </div>
                             </div>
 
-                            <h6>by <a href={`http://localhost:3000/provider/${info[0].providerId}`}>{props.commodity.providerName}</a></h6>
+                            <h6>by <a href={`http://localhost:3000/provider/${providerId}`}>{props.commodity.providerName}</a></h6>
                             <h6 className="categories">Category(s)</h6>
                             <ul>
                                 {categories.slice(0, -1).map((category, index) => (
@@ -137,7 +138,10 @@ function CommodityInfo(props) {
                             {/*    </div>*/}
                             {/*)}*/}
                         </div>
-                        {<Rate id={info[0].id} onRatingChange={handleRatingChange} onCounOfRatingsChange={handleCountOfRatingsChange}/>}
+                        {<Rate username= {props.username}
+                               id={info[0].id}
+                               onRatingChange={handleRatingChange}
+                               onCounOfRatingsChange={handleCountOfRatingsChange}/>}
                     </div>
                 </div>
             </div>
@@ -171,7 +175,7 @@ function Rate(props) {
         if (rating != null) {
             event.preventDefault();
             const response = await axios.put(`http://localhost:8080/api/rate/${props.id}`, {
-                username: "amir",
+                username: props.username,
                 rate: rating
             });
             if (response.status === 200) {
@@ -249,12 +253,17 @@ function Comments(props) {
                                     </div>
                                 </div>
                             </div>
-                            {<Vote likes={comment.likes} dislikes={comment.dislikes} commentId={comment.id} id={props.id}/>}
+                            {<Vote username={props.username}
+                                   likes={comment.likes}
+                                   dislikes={comment.dislikes}
+                                   commentId={comment.id} id={props.id}/>}
                         </div>
                     </div>
                 ))}
 
-                {<PostComment id={props.id} onPostClicked={handleCommentPost}/>}
+                {<PostComment username={props.username}
+                              id={props.id}
+                              onPostClicked={handleCommentPost}/>}
             </div>
         </>
     );
@@ -266,7 +275,7 @@ function Vote(props) {
     async function handleThumbsUpClick(event) {
         event.preventDefault();
         const response = await axios.put(`http://localhost:8080/api/comment/vote/${props.id}`, {
-            username: "amir",
+            username: props.username,
             commentId: props.commentId,
             vote: "1"
         });
@@ -284,7 +293,7 @@ function Vote(props) {
     async function handleThumbsDownClick(event) {
         event.preventDefault();
         const response = await axios.put(`http://localhost:8080/api/comment/vote/${props.id}`, {
-            username: "amir",
+            username: props.username,
             commentId: props.commentId,
             vote: "-1"
         });
@@ -335,7 +344,7 @@ function PostComment(props) {
     async function handlePost(event) {
         event.preventDefault();
         const response = await axios.post(`http://localhost:8080/api/comment/post/${props.id}`, {
-            username: "#usernmae",
+            username: props.username,
             text: comment
         });
 
@@ -375,6 +384,7 @@ function SuggestedCommodities(props) {
             <div className="card-group mt-4">
                 {commodities[0].map((item, index) => (
                     <CommodityCard key={index}
+                                   width={"90%"}
                                    commodity={item}
                                    handleIncreaseCartCount={props.increaseCart}
                                    handleDecreaseCartCount={props.decreaseCart}
@@ -420,7 +430,7 @@ function Commodity() {
     }, []);
 
     useEffect( () => {
-        console.log(username)
+
         if (username !== '') {
             axios.get(`http://localhost:8080/api/commodity/${id.id}/${username}`).then((response) => {
                 setCommodity(response.data);
@@ -428,6 +438,7 @@ function Commodity() {
                 setCartCount(response.data.cartCount)
             });
         }
+
     }, [username])
 
     function increaseCartCount() {
@@ -437,6 +448,7 @@ function Commodity() {
     function decreaseCartCount() {
         setCartCount(cartCount - 1)
     }
+    console.log(commodity)
 
     return (
         <>
@@ -469,7 +481,9 @@ function Commodity() {
                                          username={username}
                                          increaseCart={increaseCartCount}
                                          decreaseCart={decreaseCartCount}/>}
-            {commodity && <Comments comments={commodity.comments} id={commodity.info.id}/>}
+            {commodity && <Comments username = {username}
+                                    comments={commodity.comments}
+                                    id={commodity.info.id}/>}
             {suggested.length > 0 && <SuggestedCommodities suggested={suggested}
                                                            commodity={commodity}
                                                            username={username}

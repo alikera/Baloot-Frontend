@@ -8,6 +8,8 @@ import Home from "./home/home";
 import Provider from "./provider/provider";
 import Commodity from "./commodity/commodity";
 
+import React from "react";
+
 function App() {
     return (<Router>
         <Routes>
@@ -19,6 +21,7 @@ function App() {
             <Route path="/commodity/:id" element={<Commodity/>}/>
         </Routes>
     </Router>);
+
 }
 
 export default App;
