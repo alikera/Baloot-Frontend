@@ -120,6 +120,7 @@ function UserCartDetails(props) {
     const [discountValue, setDiscountValue] = useState(0);
     const [discountCode, setDiscountCode] = useState('');
     const [showModal, setShowModal] = useState(false);
+    const [inStock, setInStock] = useState('')
 
     useEffect(() => {
         let sum = 0;
@@ -176,10 +177,20 @@ function UserCartDetails(props) {
 
     function handleDecrement(index) {
         const updatedList = [...buyList];
-        if (updatedList[index].quantity > 0) {
+        if (updatedList[index].quantity > 1) {
             updatedList[index].quantity -= 1;
             setBuyList(updatedList);
         }
+        else if (updatedList[index].quantity == 1) {
+            updatedList[index].quantity -= 1;
+            setBuyList(updatedList);
+        }
+    }
+
+    function handleRemove(index) {
+        const updatedList = [...buyList];
+        updatedList.splice(index, 1);
+        setBuyList(updatedList);
     }
 
     return(
@@ -205,29 +216,13 @@ function UserCartDetails(props) {
                     </tr>
                     </thead>
                     {buyList.length > 0 && (buyList.map((item, index) => (
-                        <tbody className="table-body">
-                        <tr>
-                            <th scope="row" className="text-center">
-                                <a href={`/commodity/${item.info.id}`}>
-                                    <img className="buy-list-img" src={item.info.image} alt={item.info.name} />
-                                </a>
-                            </th>
-                            <td className="align-middle">{item.info.name}</td>
-                            <td className="align-middle">{item.info.categories.join(", ")}</td>
-                            <td className="align-middle">${item.info.price}</td>
-                            <td className="align-middle">{item.info.providerId}</td>
-                            <td className="rating align-middle">{item.info.rating}</td>
-                            <td className="in-stock align-middle">{item.info.inStock}</td>
-                            <td className="align-middle">
-                                <div className="counter">
-                                    <button className="counter-btn" id={`decrement`} onClick={() => handleDecrement(index)}>-</button>
-                                    <div className="counter-value" id={`counter`}>{item.quantity}</div>
-                                    <button className="counter-btn" id={`increment`} onClick={() => handleIncrement(index)}>+</button>
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                        )))}
+                        <TableRow index={index}
+                                  username={props.username}
+                                  commodity={item}
+                                  handleInc={handleIncrement}
+                                  handleDec={handleDecrement}
+                                  handleRemove={handleRemove}/>
+                    )))}
                 </table>
                 {buyList.length === 0 && (<div className="empty-cart">
                     your cart is empty
@@ -293,6 +288,87 @@ function UserCartDetails(props) {
             </div>
         </>
     );
+}
+
+function TableRow(props) {
+    const item = useState(props.commodity)
+    const [inStock, setInStock] = useState(item[0].info.inStock)
+    const [quantity, setQuantity] = useState(item[0].quantity)
+    console.log(item[0])
+    async function handleIncrement(event) {
+        event.stopPropagation();
+        if (inStock > 0) {
+            setQuantity(quantity + 1);
+            const response = await axios.put(`http://localhost:8080/api/user/buyList/${props.username}`, {
+                commodityId: item[0].info.id,
+                count: "1"
+            });
+            if(response.status === 200){
+                setInStock(response.data)
+            }
+        }
+        props.handleInc(props.index)
+    }
+
+    async function handleDecrement(event) {
+        event.stopPropagation();
+        if (quantity > 0) {
+            if (quantity === 1) {
+                props.handleRemove(props.index)
+            }
+            setQuantity(quantity - 1);
+            const response = await axios.put(`http://localhost:8080/api/user/buyList/${props.username}`, {
+                commodityId: item[0].info.id,
+                count: "-1"
+            });
+            if(response.status === 200){
+                setInStock(response.data)
+            }
+        }
+        props.handleDec(props.index)
+    }
+
+    return (
+        <>
+            <tbody className="table-body">
+            <tr>
+                <th scope="row" className="text-center">
+                    <a href={`/commodity/${item[0].info.id}`}>
+                        <img className="buy-list-img" src={item[0].info.image} alt={item[0].info.name} />
+                    </a>
+                </th>
+                <td className="align-middle">{item[0].info.name}</td>
+                <td className="align-middle">{item[0].info.categories.join(", ")}</td>
+                <td className="align-middle">${item[0].info.price}</td>
+                <td className="align-middle">{item[0].info.providerId}</td>
+                <td className="rating align-middle">{item[0].info.rating}</td>
+                <td className="in-stock align-middle">{inStock}</td>
+                <td className="align-middle">
+                    {quantity > 0 && inStock > 0 ? (
+                        <div className="counter">
+                            <button className="counter-btn" id={`decrement`} onClick={handleDecrement}>-</button>
+                            <div className="counter-value" id={`counter`}>{quantity}</div>
+                            <button className="counter-btn" id={`increment`} onClick={handleIncrement}>+</button>
+                        </div>
+                    ) : quantity > 0 && inStock === 0 ? (
+                        <div className="counter">
+                            <button className="counter-btn" id={`decrement`} onClick={handleDecrement}>-</button>
+                            <div className="counter-value" id={`counter`}>{quantity}</div>
+                            <button className="counter-btn" id={`increment`} disabled>+</button>
+                        </div>
+                        ) : (<div></div>)
+                    }
+                    {/*<div className="counter">*/}
+                    {/*    */}
+                    {/*    <button className="counter-btn" id={`decrement`} onClick={() => handleDecrement(index)}>-</button>*/}
+                    {/*    <div className="counter-value" id={`counter`}>{quantity}</div>*/}
+                    {/*    <button className="counter-btn" id={`increment`} onClick={() => handleIncrement(index)}>+</button>*/}
+                    {/*</div>*/}
+                </td>
+            </tr>
+            </tbody>
+        </>
+    )
 }
 
 function UserHistoryDetails(props) {

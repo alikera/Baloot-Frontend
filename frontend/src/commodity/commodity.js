@@ -368,32 +368,32 @@ function PostComment(props) {
 
 function SuggestedCommodities(props) {
     const commodities = useState(props.suggested)
+    const buyList = props.commodity.buyList
     return (
         <>
             <h4 className="suggestions-title">You also might like...</h4>
             <div className="card-group mt-4">
                 {commodities[0].map((item, index) => (
-                    // <CommodityCard key={index}
-                    //                commodity={item}
-                    //                handleIncreaseCartCount={increaseCartCount}
-                    //                handleDecreaseCartCount={decreaseCartCount}
-                    //                buylist={buylist}
-                    //                username={username}
-                    // />
-                    <div className="card">
-                        <div className="card-body">
-                            <a className="card-title" href="#">
-                                <h5>{item.name}</h5>
-                            </a>
-                            <p className="stock-left">{item.inStock} left in stock</p>
-                        </div>
-                        <img src={item.image} className="card-img-top" alt={item.name}/>
-                        <div className="priceAdd d-flex justify-content-between align-items-center mt-3">
-                            <h5 className="suggest-price">{item.price}$</h5>
-                            <button type="submit" className="add-btn">add to cart</button>
-                        </div>
-                    </div>
-                ))}
+                    <CommodityCard key={index}
+                                   commodity={item}
+                                   handleIncreaseCartCount={props.increaseCart}
+                                   handleDecreaseCartCount={props.decreaseCart}
+                                   buylist={buyList}
+                                   username={props.username}
+                    />))}
+                    {/*<div className="card">*/}
+                    {/*    <div className="card-body">*/}
+                    {/*        <a className="card-title" href="#">*/}
+                    {/*            <h5>{item.name}</h5>*/}
+                    {/*        </a>*/}
+                    {/*        <p className="stock-left">{item.inStock} left in stock</p>*/}
+                    {/*    </div>*/}
+                    {/*    <img src={item.image} className="card-img-top" alt={item.name}/>*/}
+                    {/*    <div className="priceAdd d-flex justify-content-between align-items-center mt-3">*/}
+                    {/*        <h5 className="suggest-price">{item.price}$</h5>*/}
+                    {/*        <button type="submit" className="add-btn">add to cart</button>*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
             </div>
         </>
     );
@@ -469,7 +469,11 @@ function Commodity() {
                                          increaseCart={increaseCartCount}
                                          decreaseCart={decreaseCartCount}/>}
             {commodity && <Comments comments={commodity.comments} id={commodity.info.id}/>}
-            {suggested.length > 0 && <SuggestedCommodities suggested={suggested}/>}
+            {suggested.length > 0 && <SuggestedCommodities suggested={suggested}
+                                                           commodity={commodity}
+                                                           username={username}
+                                                           increaseCart={increaseCartCount}
+                                                           decreaseCart={decreaseCartCount}/>}
             <footer className="position-relative">
                 <div className="container-fluid">
                     <div className="row">
