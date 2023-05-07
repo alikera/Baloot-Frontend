@@ -98,7 +98,7 @@ function CommodityInfo(props) {
                                 </div>
                             </div>
 
-                            <h6>by <a href="#">{props.commodity.providerName}</a></h6>
+                            <h6>by <a href={`http://localhost:3000/provider/${info[0].providerId}`}>{props.commodity.providerName}</a></h6>
                             <h6 className="categories">Category(s)</h6>
                             <ul>
                                 {categories.slice(0, -1).map((category, index) => (
@@ -449,16 +449,17 @@ function Commodity() {
                         <div className="info-container-fluid d-flex justify-content-between">
                             <a href={`http://localhost:3000/user/${username}`}>
                                 <div className="username">#{username}</div>
-
                             </a>
-                            <div className={`cart-container d-flex ${cartCount === 0 ? 'cart-container-zero' : 'cart-container'}`}>
-                                <div className="cart">
-                                    Cart
+                            <a href={`http://localhost:3000/user/${username}`}>
+                                <div className={`cart-container d-flex ${cartCount === 0 ? 'cart-container-zero' : 'cart-container'}`}>
+                                    <div className="cart">
+                                        Cart
+                                    </div>
+                                    <div className="cartNum">
+                                        {cartCount}
+                                    </div>
                                 </div>
-                                <div className="cartNum">
-                                    {cartCount}
-                                </div>
-                            </div>
+                            </a>
                         </div>
                     </div>
                 </nav>
