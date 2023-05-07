@@ -49,14 +49,16 @@ function HomeHeader(props) {
                             <div className="username">#{username}</div>
 
                         </a>
-                        <div className={`cart-container d-flex ${cartCount === 0 ? 'cart-container-zero' : 'cart-container'}`}>
-                            <div className="cart">
-                                Cart
+                        <a href={`user/${username}`}>
+                            <div className={`cart-container d-flex ${cartCount === 0 ? 'cart-container-zero' : 'cart-container'}`}>
+                                <div className="cart">
+                                    Cart
+                                </div>
+                                <div className="cartNum">
+                                    {cartCount}
+                                </div>
                             </div>
-                            <div className="cartNum">
-                                {cartCount}
-                            </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
             </nav>
