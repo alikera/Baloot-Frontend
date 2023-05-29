@@ -80,6 +80,7 @@ function CommodityInfo(props) {
     function handleCountOfRatingsChange(newCount) {
         setCountOfRatings(newCount)
     }
+    console.log(categories)
     return (
         <>
             <div className="container">
@@ -101,8 +102,9 @@ function CommodityInfo(props) {
 
                             <h6>by <a href={`http://localhost:3000/provider/${providerId}`}>{props.commodity.providerName}</a></h6>
                             <h6 className="categories">Category(s)</h6>
+
                             <ul>
-                                {categories.slice(0, -1).map((category, index) => (
+                                {categories[0].map((category, index) => (
                                     <li key={index}><h6>{category}</h6></li>
                                 ))}
                             </ul>
@@ -438,7 +440,6 @@ function Commodity() {
                 setCartCount(response.data.cartCount)
             });
         }
-
     }, [username])
 
     function increaseCartCount() {

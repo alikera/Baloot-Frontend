@@ -38,6 +38,8 @@ function Home() {
 
             setCommodities([]);
             setTotalPages(1);
+            if (username.length === 0)
+                return;
             const apiUrl = `http://localhost:8080/api/?search=${searchQuery}&option=${searchOption}&available=${availableFlag}&sort=${sortBy}&page=${pageNumber}&username=${username}`;
             axios.get(apiUrl).then((response) => {
                 setCommodities(response.data.commodities)
