@@ -205,14 +205,11 @@ function UserCartDetails(props) {
             updatedList[index].quantity -= 1;
             setBuyList(updatedList);
         }
-        // else if (updatedList[index].quantity === 1) {
-        //     updatedList[index].quantity -= 1;
-        //     setBuyList(updatedList);
-        // }
     }
 
 
     async function handleRemove(index) {
+        window.location.reload()
         const updatedList = [...buyList];
         updatedList.splice(index, 1);
         // Update the index prop for all TableRow components

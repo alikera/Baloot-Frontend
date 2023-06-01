@@ -431,10 +431,12 @@ function Commodity() {
         }
     }, []);
 
+
     useEffect( () => {
 
         if (username !== '') {
             axios.get(`http://localhost:8080/api/commodity/${id.id}/${username}`).then((response) => {
+                console.log(response.data)
                 setCommodity(response.data);
                 setSuggested(response.data.suggested);
                 setCartCount(response.data.cartCount)
