@@ -11,6 +11,7 @@ import CommodityCard from "../home/commodityCard";
 import HiddenJs from "@mui/material/Hidden/HiddenJs";
 import HomeHeader from "../home/homeHeader";
 import commodityCard from "../home/commodityCard";
+import jwt_decode from "jwt-decode";
 
 function CommodityInfo(props) {
     const navigate = useNavigate();
@@ -421,12 +422,15 @@ function Commodity() {
     const navigate = useNavigate();
     const id = useParams()
     useEffect(() => {
-        const userData = localStorage.getItem('userData');
-        if (!userData) {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            // Redirect to login page or show an error message
             navigate('/login');
-        }
-        else {
-            setUsername(JSON.parse(atob(userData)).userId);
+        }else {
+            const decodedToken = jwt_decode(token);
+            const username = decodedToken.username;
+            console.log(username)
+            setUsername(username);
             document.title = 'Commodity';
         }
     }, []);

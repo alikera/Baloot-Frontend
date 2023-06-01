@@ -10,6 +10,7 @@ import CommodityCard from "../home/commodityCard";
 import Footer from "../components/footer";
 import Header from "../components/header";
 import HomeHeader from "../home/homeHeader";
+import jwt_decode from "jwt-decode";
 
 function Provider(){
     const [commodities, setCommodities] = useState([]);
@@ -24,12 +25,15 @@ function Provider(){
     const navigate = useNavigate();
 
     useEffect(() => {
-        const userData = localStorage.getItem('userData');
-        if (!userData) {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            // Redirect to login page or show an error message
             navigate('/login');
-        }
-        else {
-            setUsername(JSON.parse(atob(userData)).userId);
+        }else {
+            const decodedToken = jwt_decode(token);
+            const username = decodedToken.username;
+            console.log(username)
+            setUsername(username);
             document.title = 'Provider';
             setCommodities([]);
             console.log(providerId.providerId);

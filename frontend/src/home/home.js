@@ -9,6 +9,7 @@ import MyPagination from "../components/pagination";
 import CommodityCard from "./commodityCard";
 import HomeHeader from "./homeHeader";
 import {map} from "react-bootstrap/ElementChildren";
+import jwt_decode from 'jwt-decode';
 
 
 function Home() {
@@ -28,12 +29,15 @@ function Home() {
     const [totalPages, setTotalPages] = useState(10);
 
     useEffect(() => {
-        const userData = localStorage.getItem('userData');
-        if (!userData) {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            // Redirect to login page or show an error message
             navigate('/login');
-        }
-        else {
-            setUsername(JSON.parse(atob(userData)).userId);
+        }else {
+            const decodedToken = jwt_decode(token);
+            const username = decodedToken.username;
+            console.log(username)
+            setUsername(username);
             document.title = 'Home';
 
             setCommodities([]);
@@ -42,6 +46,7 @@ function Home() {
                 return;
             const apiUrl = `http://localhost:8080/api/?search=${searchQuery}&option=${searchOption}&available=${availableFlag}&sort=${sortBy}&page=${pageNumber}&username=${username}`;
             axios.get(apiUrl).then((response) => {
+
                 setCommodities(response.data.commodities)
                 setTotalPages(response.data.totalPages)
                 setCartCount(response.data.cartCount)

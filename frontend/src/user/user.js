@@ -9,9 +9,9 @@ import Login from "../auth/login";
 import {forEach} from "react-bootstrap/ElementChildren";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import jwt_decode from "jwt-decode";
 
 function UserInfo(props) {
-    const userData = localStorage.getItem('userData');
     const navigate = useNavigate();
     const [credit, setCredit] = useState('')
 
@@ -36,15 +36,15 @@ function UserInfo(props) {
     }
 
     function handleLogout() {
-        localStorage.removeItem('userData')
+        localStorage.removeItem('token')
     }
-
-    useEffect(() => {
-        const userData = localStorage.getItem('userData');
-        if (!userData) {
-            navigate('/login');
-        }
-    },[])
+    //
+    // useEffect(() => {
+    //     const userData = localStorage.getItem('userData');
+    //     if (!userData) {
+    //         navigate('/login');
+    //     }
+    // },[])
 
     return (
       <>
@@ -454,21 +454,24 @@ function UserHistoryDetails(props) {
 }
 
 function User() {
-    useEffect(() => {
-        document.title = 'User';
-        return () => {
-        };
-    }, []);
     const [user, setUser] = useState('')
+    const [username, setUsername] = useState('')
+
     const [buyList, setBuyList] = useState('')
     const [purchasedList, setPurchasedList] = useState('')
 
-    const { username } = useParams()
     const navigate = useNavigate();
-
     useEffect(() => {
-        if (!username) {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            // Redirect to login page or show an error message
             navigate('/login');
+        }else {
+            const decodedToken = jwt_decode(token);
+            const username = decodedToken.username;
+            console.log(username)
+            setUsername(username);
+            document.title = 'User';
         }
     }, []);
 
@@ -476,6 +479,8 @@ function User() {
         if (username) {
             axios.get("http://localhost:8080/api/user/" + username).then((responseUser) => {
                 setUser(responseUser.data);
+                console.log(responseUser.data)
+
             });
         }
     }, []);
@@ -483,6 +488,7 @@ function User() {
         if (username) {
             axios.get("http://localhost:8080/api/user/buyList/" + username).then((responseBuyListList) => {
                 setBuyList(responseBuyListList.data);
+
             });
         }
     }, []);
