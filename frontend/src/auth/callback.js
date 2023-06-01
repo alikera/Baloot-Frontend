@@ -3,13 +3,13 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 function CallbackPage({notify}) {
     const navigate = useNavigate();
-    const [isUserLoggedIn, setIsUserLoggedIn] = useState(null)
+    const [isUserLoggedIn, setIsUserLoggedIn] = useState(false)
     const [doOnce, setDoOnce] = useState(false)
     const [searchParams, setSearchParams] = useSearchParams();
 
     async function doFetch(code) {
         setDoOnce(true);
-        const response = await fetch('http://localhost:8080/callback', {
+        const response = await fetch('http://localhost:8080/api/auth/callback', {
             headers: {'Content-Type': 'application/json',
                 'Accept': 'application/json'},
             method: 'POST',
@@ -18,11 +18,13 @@ function CallbackPage({notify}) {
             body: JSON.stringify({ "code": code })
         });
         const data = await response.json();
-        console.log('tokes: ' + data.status + ': ' + data.data);
-        if (data.status === 200) {
+        console.log("XXX")
+        console.log(data)
+        console.log(data.status)
+        if (data.Token != null) {
             notify("login using github successful!!")
             setDoOnce(false);
-            localStorage.setItem('token', data.data)
+            localStorage.setItem('userData', data.Token)
             navigate("/")
         } else {
             notify("login using github failed!!")
@@ -32,7 +34,7 @@ function CallbackPage({notify}) {
     }
 
     useEffect(() => {
-        if (localStorage.getItem('token') === 'null') {
+        if (localStorage.getItem('userData') === null) {
             setIsUserLoggedIn(false)
         } else {
             notify("You can't view this page when logged in")
@@ -46,7 +48,7 @@ function CallbackPage({notify}) {
         if (!doOnce) {
             doFetch(auth_code)
         }
-    }, [isUserLoggedIn])
+    }, [])
 
     return (
         <div></div>
