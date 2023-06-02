@@ -29,11 +29,10 @@ function Home() {
     const [totalPages, setTotalPages] = useState(10);
 
     useEffect(() => {
-        const token = "alikeraaaa";
+        const token = localStorage.getItem('token');
         if (!token) {
-            // Redirect to login page or show an error message
             navigate('/login');
-        }else {
+        } else {
             const decodedToken = jwt_decode(token);
             const username = decodedToken.username;
             console.log(username)
