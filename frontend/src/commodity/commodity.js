@@ -39,6 +39,11 @@ function CommodityInfo(props) {
         const response = await axios.put(`http://localhost:8080/api/user/buyList/${props.username}`, {
             commodityId: info[0].id,
             count: "1"
+        }, {
+            headers: {
+                'Authorization': localStorage.getItem('token'),
+                'Content-Type': 'application/json',
+            }
         });
         if(response.status === 200) {
             setInStock(response.data)
@@ -51,6 +56,11 @@ function CommodityInfo(props) {
             const response = await axios.put(`http://localhost:8080/api/user/buyList/${props.username}`, {
                 commodityId: info[0].id,
                 count: "1"
+            },{
+                headers: {
+                    'Authorization': localStorage.getItem('token'),
+                    'Content-Type': 'application/json'
+                }
             });
             if(response.status === 200){
                 setInStock(response.data)
@@ -67,6 +77,11 @@ function CommodityInfo(props) {
             const response = await axios.put(`http://localhost:8080/api/user/buyList/${props.username}`, {
                 commodityId: info[0].id,
                 count: "-1"
+            },{
+                headers: {
+                    'Authorization': localStorage.getItem('token'),
+                    'Content-Type': 'application/json',
+                }
             });
             if(response.status === 200){
                 setInStock(response.data)
@@ -180,6 +195,11 @@ function Rate(props) {
             const response = await axios.put(`http://localhost:8080/api/rate/${props.id}`, {
                 username: props.username,
                 rate: rating
+            },{
+                headers: {
+                    'Authorization': localStorage.getItem('token'),
+                    'Content-Type': 'application/json',
+                }
             });
             if (response.status === 200) {
                 console.log(response.data)
@@ -281,6 +301,11 @@ function Vote(props) {
             username: props.username,
             commentId: props.commentId,
             vote: "1"
+        },{
+            headers: {
+                'Authorization': localStorage.getItem('token'),
+                'Content-Type': 'application/json',
+            }
         });
         if (response.status === 200) {
             if (response.data === 1) {
@@ -299,6 +324,11 @@ function Vote(props) {
             username: props.username,
             commentId: props.commentId,
             vote: "-1"
+        },{
+            headers: {
+                'Authorization': localStorage.getItem('token'),
+                'Content-Type': 'application/json',
+            }
         });
         if (response.status === 200) {
             if (response.data === 1) {
@@ -349,6 +379,11 @@ function PostComment(props) {
         const response = await axios.post(`http://localhost:8080/api/comment/post/${props.id}`, {
             username: props.username,
             text: comment
+        },{
+            headers: {
+                'Authorization': localStorage.getItem('token'),
+                'Content-Type': 'application/json',
+            }
         });
 
         if (response.status === 200) {
@@ -439,7 +474,12 @@ function Commodity() {
     useEffect( () => {
 
         if (username !== '') {
-            axios.get(`http://localhost:8080/api/commodity/${id.id}/${username}`).then((response) => {
+            axios.get(`http://localhost:8080/api/commodity/${id.id}/${username}`,{
+                    headers: {
+                        'Authorization': localStorage.getItem('token'),
+                        'Content-Type': 'application/json',
+                    }
+                }).then((response) => {
                 console.log(response.data)
                 setCommodity(response.data);
                 setSuggested(response.data.suggested);

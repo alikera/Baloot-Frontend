@@ -45,7 +45,13 @@ function Provider(){
     useEffect(() => {
         if (username !== '') {
 
-            axios.get(`http://localhost:8080/api/provider/${providerId.providerId}?username=${username}`).then((response) => {
+            axios.get(`http://localhost:8080/api/provider/${providerId.providerId}?username=${username}`
+                ,{
+                    headers: {
+                        'Authorization': localStorage.getItem('token'),
+                        'Content-Type': 'application/json',
+                    }
+                }).then((response) => {
                 console.log(response);
                 setProviderName(response.data.providerName);
                 setProviderImage(response.data.providerImage);

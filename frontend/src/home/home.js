@@ -44,7 +44,12 @@ function Home() {
             if (username.length === 0)
                 return;
             const apiUrl = `http://localhost:8080/api/?search=${searchQuery}&option=${searchOption}&available=${availableFlag}&sort=${sortBy}&page=${pageNumber}&username=${username}`;
-            axios.get(apiUrl).then((response) => {
+            axios.get(apiUrl,{
+                headers: {
+                    'Authorization': localStorage.getItem('token'),
+                    'Content-Type': 'application/json',
+                }
+            }).then((response) => {
 
                 setCommodities(response.data.commodities)
                 setTotalPages(response.data.totalPages)

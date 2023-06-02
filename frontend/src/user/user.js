@@ -26,7 +26,13 @@ function UserInfo(props) {
     }
     async function handleConfirm(event) {
         event.preventDefault();
-        const response = await axios.post("http://localhost:8080/api/user/addCredit/" + props.user.username + "?credit=" + credit);
+        const response = await axios.post("http://localhost:8080/api/user/addCredit/" + props.user.username + "?credit=" + credit
+            ,{},{
+                headers: {
+                    'Authorization': localStorage.getItem('token'),
+                    'Content-Type': 'application/json',
+                }
+            });
 
         if (response.status === 200) {
             window.location.reload();
@@ -159,7 +165,13 @@ function UserCartDetails(props) {
         const requestBody = { keys, values };
 
         try {
-            const response = await axios.post(`http://localhost:8080/api/user/pay/${props.username}?discountCode=${discountCode}&discountValue=${discountValue}`, requestBody);
+            const response = await axios.post(`http://localhost:8080/api/user/pay/${props.username}?discountCode=${discountCode}&discountValue=${discountValue}`, requestBody,
+                {
+                    headers: {
+                        'Authorization': localStorage.getItem('token'),
+                        'Content-Type': 'application/json',
+                    }
+                });
 
             if (response.status === 200) {
                 window.location.reload();
@@ -176,7 +188,13 @@ function UserCartDetails(props) {
         event.preventDefault();
 
         try {
-            const response = await axios.get(`http://localhost:8080/api/user/discount?code=${discountCode}&username=${props.username}`);
+            const response = await axios.get(`http://localhost:8080/api/user/discount?code=${discountCode}&username=${props.username}`
+                ,{
+                    headers: {
+                        'Authorization': localStorage.getItem('token'),
+                        'Content-Type': 'application/json',
+                    }
+                });
 
             if (response.status === 200) {
                 setDiscountValue(response.data);
@@ -331,6 +349,11 @@ function TableRow(props) {
             const response = await axios.put(`http://localhost:8080/api/user/buyList/${props.username}`, {
                 commodityId: item[0].info.id,
                 count: "1"
+            },{
+                headers: {
+                    'Authorization': localStorage.getItem('token'),
+                    'Content-Type': 'application/json',
+                }
             });
             if(response.status === 200){
                 setInStock(response.data)
@@ -349,6 +372,11 @@ function TableRow(props) {
             const response = await axios.put(`http://localhost:8080/api/user/buyList/${props.username}`, {
                 commodityId: item[0].info.id,
                 count: "-1"
+            },{
+                headers: {
+                    'Authorization': localStorage.getItem('token'),
+                    'Content-Type': 'application/json',
+                }
             });
             if(response.status === 200){
                 setInStock(response.data)
@@ -475,29 +503,35 @@ function User() {
     }, []);
 
     useEffect(() => {
-        axios.get("http://localhost:8080/api/user/" + username).then((responseUser) => {
+        axios.get("http://localhost:8080/api/user/" + username,{
+            headers: {
+                'Authorization': localStorage.getItem('token'),
+                'Content-Type': 'application/json',
+            }
+        }).then((responseUser) => {
             setUser(responseUser.data);
 
         });
 
-        axios.get("http://localhost:8080/api/user/buyList/" + username).then((responseBuyListList) => {
+        axios.get("http://localhost:8080/api/user/buyList/" + username,{
+            headers: {
+                'Authorization': localStorage.getItem('token'),
+                'Content-Type': 'application/json',
+            }
+        }).then((responseBuyListList) => {
             setBuyList(responseBuyListList.data);
         });
 
-        axios.get("http://localhost:8080/api/user/purchasedList/" + username).then((responsePurchasedList) => {
+        axios.get("http://localhost:8080/api/user/purchasedList/" + username,{
+            headers: {
+                'Authorization': localStorage.getItem('token'),
+                'Content-Type': 'application/json',
+            }
+        }).then((responsePurchasedList) => {
             setPurchasedList(responsePurchasedList.data);
         });
     }, [username]);
-    // useEffect(() => {
-    //         axios.get("http://localhost:8080/api/user/buyList/" + username).then((responseBuyListList) => {
-    //             setBuyList(responseBuyListList.data);
-    //         });
-    // }, [username]);
-    // useEffect(() => {
-    //         axios.get("http://localhost:8080/api/user/purchasedList/" + username).then((responsePurchasedList) => {
-    //             setPurchasedList(responsePurchasedList.data);
-    //         });
-    // }, [username]);
+
     function handleModifyBuyList(NewBuyList){
         setBuyList(NewBuyList)
     }

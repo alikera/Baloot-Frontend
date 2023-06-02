@@ -25,6 +25,11 @@ function CommodityCard({ width="100%", commodity , handleIncreaseCartCount, hand
         const response = await axios.put(`http://localhost:8080/api/user/buyList/${username}`, {
             commodityId: commodity.id,
             count: "1"
+        },{
+            headers: {
+                'Authorization': localStorage.getItem('token'),
+                'Content-Type': 'application/json',
+            }
         });
         if(response.status === 200) {
             setInStock(response.data)
@@ -38,6 +43,11 @@ function CommodityCard({ width="100%", commodity , handleIncreaseCartCount, hand
             const response = await axios.put(`http://localhost:8080/api/user/buyList/${username}`, {
                 commodityId: commodity.id,
                 count: "1"
+            },{
+                headers: {
+                    'Authorization': localStorage.getItem('token'),
+                    'Content-Type': 'application/json',
+                }
             });
             if(response.status === 200){
                 setInStock(response.data)
@@ -55,6 +65,11 @@ function CommodityCard({ width="100%", commodity , handleIncreaseCartCount, hand
             const response = await axios.put(`http://localhost:8080/api/user/buyList/${username}`, {
                 commodityId: commodity.id,
                 count: "-1"
+            },{
+                headers: {
+                    'Authorization': localStorage.getItem('token'),
+                    'Content-Type': 'application/json',
+                }
             });
             if(response.status === 200){
                 setInStock(response.data)
