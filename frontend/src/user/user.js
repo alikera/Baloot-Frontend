@@ -464,9 +464,8 @@ function User() {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (!token) {
-            // Redirect to login page or show an error message
             navigate('/login');
-        }else {
+        } else {
             const decodedToken = jwt_decode(token);
             const username = decodedToken.username;
             console.log(username)
@@ -476,29 +475,29 @@ function User() {
     }, []);
 
     useEffect(() => {
-        if (username) {
-            axios.get("http://localhost:8080/api/user/" + username).then((responseUser) => {
-                setUser(responseUser.data);
-                console.log(responseUser.data)
+        axios.get("http://localhost:8080/api/user/" + username).then((responseUser) => {
+            setUser(responseUser.data);
 
-            });
-        }
-    }, []);
-    useEffect(() => {
-        if (username) {
-            axios.get("http://localhost:8080/api/user/buyList/" + username).then((responseBuyListList) => {
-                setBuyList(responseBuyListList.data);
+        });
 
-            });
-        }
-    }, []);
-    useEffect(() => {
-        if (username) {
-            axios.get("http://localhost:8080/api/user/purchasedList/" + username).then((responsePurchasedList) => {
-                setPurchasedList(responsePurchasedList.data);
-            });
-        }
-    }, []);
+        axios.get("http://localhost:8080/api/user/buyList/" + username).then((responseBuyListList) => {
+            setBuyList(responseBuyListList.data);
+        });
+
+        axios.get("http://localhost:8080/api/user/purchasedList/" + username).then((responsePurchasedList) => {
+            setPurchasedList(responsePurchasedList.data);
+        });
+    }, [username]);
+    // useEffect(() => {
+    //         axios.get("http://localhost:8080/api/user/buyList/" + username).then((responseBuyListList) => {
+    //             setBuyList(responseBuyListList.data);
+    //         });
+    // }, [username]);
+    // useEffect(() => {
+    //         axios.get("http://localhost:8080/api/user/purchasedList/" + username).then((responsePurchasedList) => {
+    //             setPurchasedList(responsePurchasedList.data);
+    //         });
+    // }, [username]);
     function handleModifyBuyList(NewBuyList){
         setBuyList(NewBuyList)
     }

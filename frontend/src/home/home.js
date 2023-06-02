@@ -29,7 +29,7 @@ function Home() {
     const [totalPages, setTotalPages] = useState(10);
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
+        const token = "alikeraaaa";
         if (!token) {
             // Redirect to login page or show an error message
             navigate('/login');

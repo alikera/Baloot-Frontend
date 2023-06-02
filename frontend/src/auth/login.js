@@ -8,15 +8,17 @@ import FormField from "./formField";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import jwt_decode from "jwt-decode";
 
 function Login() {
 
     const navigate = useNavigate();
     useEffect(() => {
-        const userData = localStorage.getItem('userData');
-        if (userData) {
+        const token = localStorage.getItem('token');
+        if (token) {
             navigate('/');
         }
+
         document.title = 'Login';
     }, []);
 
@@ -25,16 +27,13 @@ function Login() {
 
     async function handleSubmit(event) {
         event.preventDefault();
-        const formData = new FormData(event.target);
+        console.log(event.target)
+        const form = event.target.closest('form'); // Get the closest form element
+        const formData = new FormData(form);
 
         const email = formData.get('email');
         const password = formData.get('password');
-        //
-        // const emailRegex = /^[a-zA-Z0-9]+$/;
-        // if (!emailRegex.test(email)) {
-        //     toast.error("Username can only contain alphabets and numbers!");
-        //     return;
-        // }
+
         const response = await fetch('http://localhost:8080/api/auth/login', {
             headers: {
                 'Content-Type': 'application/json',
@@ -68,7 +67,7 @@ function Login() {
             <div className="container-fluid">
                 <div className="row justify-content-center align-items-center vh-100">
                     <div className="col-sm-12 col-md-3">
-                        <form className="signing-form" onSubmit={handleSubmit}>
+                        <form className="signing-form">
                             <FormField field={"email"} type={"email"}/>
                             <FormField field={"password"} type={"password"}/>
 
