@@ -14,7 +14,7 @@ import user from "../user/user";
 function Register() {
     const navigate = useNavigate();
     useEffect(() => {
-        const userData = localStorage.getItem('userData');
+        const userData = localStorage.getItem('token');
         if (userData) {
             navigate('/');
         }
@@ -28,6 +28,7 @@ function Register() {
 
         const username = formData.get('username');
         const password = formData.get('password');
+        const confirmPassword = formData.get('confirmPassword')
         const email = formData.get('email');
         const address = formData.get('address');
         const birthDate = formData.get('birthDate');
@@ -37,6 +38,10 @@ function Register() {
             // For example, you can use the react-toastify library to show a toast message
             toast.error("Username can only contain alphabets and numbers!");
             console.log(username)
+            return;
+        }
+        if(confirmPassword !== password){
+            toast.error("Passwords doesnt match!");
             return;
         }
         try {
