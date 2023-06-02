@@ -7,10 +7,13 @@ import User from "./user/user";
 import Home from "./home/home";
 import Provider from "./provider/provider";
 import Commodity from "./commodity/commodity";
-
 import React from "react";
+import CallbackPage from "./auth/callback";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
+    const notify = (message) => toast(message);
     return (<Router>
         <Routes>
             <Route path="/login" element={<Login/>}/>
@@ -19,6 +22,7 @@ function App() {
             <Route path="/" element={<Home/>}/>
             <Route path="/provider/:providerId" element={<Provider/>}/>
             <Route path="/commodity/:id" element={<Commodity/>}/>
+            <Route path="/callback" element={<CallbackPage notify={notify}/>}/>
         </Routes>
     </Router>);
 

@@ -29,3 +29,15 @@
     margin-top: 5%;
     font-size: 12px;
 }
+
+.github-btn {
+    border-style: none;
+    border-radius: 10px;
+    background-color:  #F7F0E9;
+    color: #A97B47;
+    margin-right: 5px;
+    min-height: 38px;
+    min-width: 101px;
+    cursor: pointer;
+    margin-top: 3%;
+}

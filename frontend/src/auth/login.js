@@ -59,6 +59,10 @@ function Login() {
         }
     }
 
+    async function handleGithubSignIn(event) {
+        window.location.replace("https://github.com/login/oauth/authorize?client_id=b8dba66689e0a75208f0&scope=user")
+    }
+
     function LoginForm() {
         return (
             <div className="container-fluid">
@@ -69,8 +73,11 @@ function Login() {
                             <FormField field={"password"} type={"password"}/>
 
                             <div className="form-group signing-container">
-                                <button type="submit" className="sign-btn">
+                                <button type="submit" className="sign-btn" onClick={handleSubmit}>
                                     Sign In
+                                </button>
+                                <button className="github-btn" type="submit" onClick={handleGithubSignIn}>
+                                    Sign In with Github
                                 </button>
                                 <div className="forgot-password">
                                     <a href="/login" className="forgot-password-link">
