@@ -1,37 +1,32 @@
-#FROM ubuntu:latest
-#LABEL authors="alike"
-#
-#ENTRYPOINT ["top", "-b"]
+# Stage 1 as builder
+FROM node:14-alpine as builder
 
-# Base image
-FROM node:14 as builder
+# copy the package.json to install dependencies
+COPY package.json package-lock.json ./
 
-# Set working directory
-WORKDIR /app
+# Install the dependencies and make the folder
+RUN npm install && mkdir /react-ui && mv ./node_modules ./react-ui
 
-# Copy package.json and package-lock.json
-#COPY package*.json ./
+WORKDIR /react-ui
 
-# Copy project files
 COPY . .
 
-# Install dependencies
-RUN npm install
-
-# Build the React app
+# Build the project and copy the files
 RUN npm run build
 
-# Production image
+# Stage 2
 FROM nginx:alpine
 
-# Copy nginx configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+#!/bin/sh
 
-# Copy built files from the previous stage
-COPY --from=builder /app/build .
+COPY ./nginx.conf /etc/nginx/nginx.conf
 
-# Expose port 80
+## Remove default nginx index page
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copy from the stage 1
+COPY --from=builder /react-ui/build /usr/share/nginx/html
+
 EXPOSE 80
 
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
