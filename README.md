@@ -1,4 +1,4 @@
-# Oak-Front
+# Baloor-Frontend
 The front-end project for the Baloot online shop website which was the main project of the Internet Engineering course at the University of Tehran.
 
 ## Setup
